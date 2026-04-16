@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Método Sobrancelha dos Sonhos | Clínica Theodoro – Goiânia</title>
+  <meta name="description" content="O método que preenche falhas, melhora o formato, aumenta os fios e remove a micropigmentação antiga. +300 mulheres transformadas em Goiânia. Avaliação gratuita." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────────── */
+    :root {
+      --cream:      #FAF6F1;
+      --cream-2:    #F3EDE4;
+      --cream-3:    #EDE3D8;
+      --nude:       #D9C4AE;
+      --nude-dark:  #B89B82;
+      --gold:       #B8924A;
+      --gold-light: #CCA968;
+      --gold-pale:  #DFC08A;
+      --white:      #FFFFFF;
+      --dark:       #2A1F14;
+      --dark-2:     #3D2F20;
+      --mid:        #7A6555;
+      --border:     rgba(184,146,74,0.2);
+
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans:  'Poppins', sans-serif;
+      --tr: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--cream);
+      color: var(--dark);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── UTILITIES ──────────────────────────────────────────────── */
+    .container { width: min(92%, 1080px); margin-inline: auto; }
+
+    .eyebrow {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .display {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 6vw, 5rem);
+      font-weight: 600;
+      line-height: 1.12;
+      color: var(--dark);
+    }
+    .display em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+    .headline {
+      font-family: var(--serif);
+      font-size: clamp(1.9rem, 4vw, 3.2rem);
+      font-weight: 600;
+      line-height: 1.18;
+      color: var(--dark);
+    }
+    .headline em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+    .section-sub {
+      font-size: 0.93rem;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.85;
+      margin-top: 16px;
+    }
+
+    /* ─── BUTTONS ────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--sans);
+      font-size: 0.73rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 16px 36px;
+      cursor: pointer;
+      transition: var(--tr);
+      border: none;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--white);
+    }
+    .btn-gold:hover { background: var(--dark); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+    }
+    .btn-outline:hover { background: var(--gold); color: var(--white); }
+
+    /* ─── DIVIDER ────────────────────────────────────────────────── */
+    .div-gold {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .div-gold::before, .div-gold::after {
+      content: '';
+      flex: 1;
+      max-width: 40px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .div-gold span {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    /* ─── REVEAL ─────────────────────────────────────────────────── */
+    .r  { opacity:0; transform:translateY(26px); transition: opacity .65s ease, transform .65s ease; }
+    .rl { opacity:0; transform:translateX(-26px); transition: opacity .65s ease, transform .65s ease; }
+    .rr { opacity:0; transform:translateX(26px);  transition: opacity .65s ease, transform .65s ease; }
+    .r.on, .rl.on, .rr.on { opacity:1; transform:translate(0); }
+
+    /* ─── NAV ────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top:0; left:0; right:0; z-index:100;
+      padding: 20px 0;
+      transition: background .4s, padding .4s, box-shadow .4s;
+    }
+    .nav.up {
+      background: rgba(250,246,241,0.97);
+      backdrop-filter: blur(12px);
+      padding: 13px 0;
+      box-shadow: 0 1px 20px rgba(42,31,20,0.07);
+    }
+    .nav-inner { display:flex; align-items:center; justify-content:space-between; }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--dark);
+      letter-spacing: .02em;
+      line-height: 1.1;
+    }
+    .nav-logo small {
+      display: block;
+      font-family: var(--sans);
+      font-size: 0.48rem;
+      font-weight: 400;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-top: 1px;
+    }
+    .nav-links { display:none; list-style:none; gap:32px; }
+    @media(min-width:860px){ .nav-links { display:flex; align-items:center; } }
+    .nav-links a {
+      font-size: 0.68rem; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--mid); transition: color .3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { display:none; }
+    @media(min-width:860px){ .nav-cta { display:inline-flex; } }
+
+    /* ─── HERO ───────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100svh;
+      background: var(--cream);
+      display: grid;
+      place-items: center;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Subtle texture */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 55%;
+      height: 100%;
+      background: var(--cream-2);
+      clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
+      pointer-events: none;
+    }
+    /* Gold line accent */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 15%; right: calc(55% - 1px);
+      width: 1px;
+      height: 70%;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+      padding: 80px 0 60px;
+    }
+    @media(min-width:860px){
+      .hero-inner { grid-template-columns: 1fr 1fr; gap: 64px; padding: 100px 0 80px; }
+    }
+
+    .hero-content { order:2; }
+    @media(min-width:860px){ .hero-content { order:1; } }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px 6px 8px;
+      background: rgba(184,146,74,0.1);
+      border-left: 2px solid var(--gold);
+      margin-bottom: 24px;
+    }
+    .hero-tag span {
+      font-size: 0.63rem; font-weight: 600;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .hero-title { margin-bottom: 18px; }
+    .hero-sub {
+      font-size: 0.96rem; font-weight: 300;
+      color: var(--mid); line-height: 1.9;
+      max-width: 420px; margin-bottom: 36px;
+    }
+    .hero-sub strong { color: var(--dark); font-weight: 500; }
+
+    .hero-ctas { display:flex; flex-wrap:wrap; gap:12px; margin-bottom: 48px; }
+
+    .hero-proof { display:flex; gap:28px; flex-wrap:wrap; }
+    .proof-item {
+      display: flex; flex-direction: column;
+      padding-left: 16px;
+      border-left: 2px solid var(--gold);
+    }
+    .proof-n {
+      font-family: var(--serif);
+      font-size: 1.8rem; font-weight: 700;
+      color: var(--dark); line-height: 1;
+    }
+    .proof-l {
+      font-size: 0.62rem; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--mid); margin-top: 3px;
+    }
+
+    /* Hero visual */
+    .hero-visual { order:1; }
+    @media(min-width:860px){ .hero-visual { order:2; } }
+
+    .hero-frame {
+      position: relative;
+      aspect-ratio: 4/5;
+      background: var(--cream-3);
+      overflow: hidden;
+    }
+    .hero-frame img {
+      width:100%; height:100%; object-fit:cover; object-position:top;
+    }
+    .hero-placeholder {
+      width:100%; height:100%;
+      display:flex; align-items:center; justify-content:center;
+      flex-direction: column;
+      font-family: var(--sans); font-size:.78rem; font-weight:300;
+      color: var(--nude-dark); text-align:center;
+      background: linear-gradient(160deg, var(--cream-3), var(--cream-2));
+    }
+    /* Gold corner accents */
+    .hero-frame::before {
+      content: '';
+      position: absolute;
+      bottom: 20px; left: 20px;
+      width: 40px; height: 40px;
+      border-bottom: 2px solid var(--gold);
+      border-left: 2px solid var(--gold);
+      z-index: 2; pointer-events: none;
+    }
+
+    .hero-float {
+      position: absolute;
+      bottom: 28px; right: -16px;
+      background: var(--white);
+      box-shadow: 0 8px 32px rgba(42,31,20,0.12);
+      padding: 18px 22px;
+      max-width: 230px;
+      z-index: 3;
+    }
+    @media(max-width:859px){ .hero-float { right: 12px; } }
+    .hero-float-text {
+      font-family: var(--serif);
+      font-size: .95rem; font-style:italic;
+      color: var(--dark); line-height:1.5;
+    }
+    .hero-float-sub {
+      font-size: .58rem; font-weight:600;
+      letter-spacing:.18em; text-transform:uppercase;
+      color: var(--gold); margin-top: 8px;
+    }
+
+    /* ─── STRIP ──────────────────────────────────────────────────── */
+    .strip {
+      background: var(--dark);
+      padding: 20px 0;
+      overflow: hidden;
+    }
+    .strip-row {
+      display:flex; gap:40px; flex-wrap:wrap; justify-content:center; align-items:center;
+    }
+    .strip-item {
+      display:flex; align-items:center; gap:10px;
+      font-size: 0.65rem; font-weight:500;
+      letter-spacing:.22em; text-transform:uppercase;
+      color: rgba(250,246,241,0.7); white-space:nowrap;
+    }
+    .strip-item::before {
+      content:''; width:4px; height:4px; border-radius:50%;
+      background: var(--gold); flex-shrink:0;
+    }
+
+    /* ─── O MÉTODO ───────────────────────────────────────────────── */
+    .metodo { padding: 100px 0; background: var(--white); }
+
+    .metodo-header {
+      max-width: 600px; margin: 0 auto 68px;
+      text-align: center;
+    }
+    .metodo-header .headline { margin-bottom: 16px; }
+
+    /* Method name badge */
+    .method-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--white);
+      font-family: var(--serif);
+      font-size: 1rem; font-style:italic; font-weight:500;
+      padding: 8px 24px;
+      margin-bottom: 20px;
+      letter-spacing: .04em;
+    }
+
+    .ben-grid {
+      display:grid;
+      grid-template-columns:1fr;
+      gap: 1px;
+      background: var(--cream-2);
+    }
+    @media(min-width:560px){ .ben-grid { grid-template-columns:1fr 1fr; } }
+    @media(min-width:900px){ .ben-grid { grid-template-columns:repeat(3,1fr); } }
+
+    .ben-card {
+      background: var(--white);
+      padding: 40px 32px;
+      border-bottom: 3px solid transparent;
+      transition: var(--tr);
+    }
+    .ben-card:hover { border-bottom-color: var(--gold); }
+
+    .ben-num {
+      font-family: var(--serif);
+      font-size: 3rem; font-weight:700;
+      color: rgba(184,146,74,0.15); line-height:1;
+      margin-bottom: 14px; letter-spacing:-.02em;
+    }
+    .ben-icon {
+      width: 44px; height: 44px;
+      margin-bottom: 20px;
+      color: var(--gold);
+    }
+    .ben-title {
+      font-family: var(--serif);
+      font-size: 1.2rem; font-weight:600;
+      color: var(--dark); margin-bottom: 10px; line-height:1.25;
+    }
+    .ben-desc {
+      font-size: .83rem; font-weight:300;
+      color: var(--mid); line-height:1.85;
+    }
+    .ben-card.featured {
+      background: var(--gold);
+    }
+    .ben-card.featured .ben-num { color: rgba(255,255,255,0.2); }
+    .ben-card.featured .ben-title { color: var(--white); }
+    .ben-card.featured .ben-desc { color: rgba(255,255,255,0.8); }
+
+    /* ─── PROBLEMA ───────────────────────────────────────────────── */
+    .problema { padding: 100px 0; background: var(--cream); }
+
+    .problema-grid {
+      display:grid; grid-template-columns:1fr; gap:60px; align-items:center;
+    }
+    @media(min-width:860px){ .problema-grid { grid-template-columns:1fr 1fr; gap:80px; } }
+
+    .problema-title { margin-bottom: 32px; }
+
+    .pain-list { list-style:none; display:flex; flex-direction:column; gap:0; }
+    .pain-item {
+      display:flex; align-items:flex-start; gap:14px;
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(184,146,74,0.12);
+      font-size: .9rem; font-weight:300; color: var(--dark-2);
+    }
+    .pain-item:first-child { border-top: 1px solid rgba(184,146,74,0.12); }
+    .pain-check {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: rgba(184,146,74,0.12);
+      border: 1px solid rgba(184,146,74,0.3);
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0; margin-top: 2px;
+      font-size: .55rem; color: var(--gold); font-weight:700;
+    }
+
+    .problema-quote {
+      margin-top: 32px;
+      padding: 22px 24px;
+      background: var(--white);
+      border-left: 3px solid var(--gold);
+      box-shadow: 0 2px 16px rgba(42,31,20,0.06);
+    }
+    .problema-quote p {
+      font-family: var(--serif);
+      font-size: 1.1rem; font-style:italic; font-weight:400;
+      color: var(--dark); line-height:1.65;
+    }
+    .problema-quote cite {
+      display:block; margin-top:8px;
+      font-size:.62rem; font-weight:600;
+      letter-spacing:.18em; text-transform:uppercase;
+      color: var(--gold); font-style:normal;
+    }
+
+    .p-img {
+      aspect-ratio: 4/5;
+      background: var(--cream-2);
+      overflow:hidden; position:relative;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .p-img img { width:100%; height:100%; object-fit:cover; }
+    .p-img-ph {
+      font-size:.78rem; color: var(--nude-dark); text-align:center; padding:24px;
+      font-family:var(--sans); font-weight:300;
+    }
+    .p-img-tag {
+      position:absolute; bottom:0; left:0; right:0;
+      background: var(--gold); color:var(--white);
+      font-size:.6rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase;
+      padding: 10px 16px; text-align:center;
+    }
+
+    /* ─── PARA QUEM ──────────────────────────────────────────────── */
+    .para-quem { padding: 100px 0; background: var(--white); }
+
+    .para-quem-header { max-width:520px; margin-bottom:52px; }
+    .para-quem-header .headline { margin-bottom:12px; }
+
+    .perfis {
+      display:grid;
+      grid-template-columns:1fr;
+      gap:20px;
+    }
+    @media(min-width:640px){ .perfis { grid-template-columns:1fr 1fr; } }
+    @media(min-width:960px){ .perfis { grid-template-columns:repeat(4,1fr); } }
+
+    .perfil {
+      padding: 32px 24px;
+      border: 1px solid rgba(184,146,74,0.18);
+      background: var(--cream);
+      transition: var(--tr);
+    }
+    .perfil:hover {
+      border-color: var(--gold);
+      box-shadow: 0 4px 20px rgba(184,146,74,0.12);
+    }
+    .perfil-num {
+      font-family: var(--serif);
+      font-size: 2rem; font-weight:700;
+      color: rgba(184,146,74,0.25); line-height:1; margin-bottom:16px;
+    }
+    .perfil-title {
+      font-family: var(--serif);
+      font-size: 1.05rem; font-weight:600;
+      color: var(--dark); margin-bottom:8px; line-height:1.3;
+    }
+    .perfil-desc { font-size:.81rem; font-weight:300; color:var(--mid); line-height:1.8; }
+
+    /* ─── RESULTADO ──────────────────────────────────────────────── */
+    .resultado { padding: 100px 0; background: var(--cream); }
+
+    .resultado-header { text-align:center; max-width:500px; margin:0 auto 56px; }
+    .resultado-header .headline { margin-bottom:12px; }
+
+    .ad-feature {
+      display:grid; grid-template-columns:1fr; gap:3px; margin-bottom:0;
+    }
+    @media(min-width:640px){ .ad-feature { grid-template-columns:1fr 1fr; } }
+
+    .ad-side {
+      position:relative;
+      aspect-ratio: 3/2;
+      overflow:hidden;
+      background: var(--cream-3);
+      display:flex; align-items:center; justify-content:center;
+    }
+    @media(min-width:640px){ .ad-side { aspect-ratio: 2/3; } }
+    .ad-side img { width:100%; height:100%; object-fit:cover; }
+    .ad-ph { font-size:.78rem; color:var(--nude-dark); text-align:center; padding:24px; font-family:var(--sans); font-weight:300; }
+    .ad-label {
+      position:absolute; top:16px; left:16px;
+      font-size:.58rem; font-weight:600;
+      letter-spacing:.2em; text-transform:uppercase;
+      padding: 6px 14px;
+    }
+    .ad-label.antes { background:rgba(255,255,255,0.85); color: var(--mid); }
+    .ad-label.depois { background: var(--gold); color: var(--white); }
+
+    .ad-caption {
+      background: var(--white);
+      border: 1px solid rgba(184,146,74,0.15);
+      padding: 28px 32px;
+      margin-bottom: 48px;
+      display:flex; align-items:flex-start; gap:14px;
+    }
+    .ad-caption::before {
+      content: '★';
+      color: var(--gold); font-size:.9rem; flex-shrink:0; margin-top:2px;
+    }
+    .ad-caption-text {
+      font-family: var(--serif);
+      font-size: 1rem; font-style:italic; font-weight:400;
+      color: var(--dark-2); line-height:1.7;
+    }
+    .ad-caption-text strong { font-style:normal; color: var(--gold); font-weight:600; }
+
+    .gal-grid {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap: 3px;
+    }
+    @media(min-width:640px){ .gal-grid { grid-template-columns:repeat(3,1fr); } }
+
+    .gal-item {
+      aspect-ratio:1; overflow:hidden;
+      background:var(--cream-3); position:relative; cursor:pointer;
+    }
+    .gal-item img { width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+    .gal-item:hover img { transform:scale(1.06); }
+    .gal-ph {
+      width:100%; height:100%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:.7rem; color:var(--nude-dark); text-align:center; padding:12px;
+      font-family:var(--sans); font-weight:300;
+      border:1px solid rgba(184,146,74,0.08);
+    }
+    .gal-overlay {
+      position:absolute; inset:0;
+      background:rgba(42,31,20,0.4);
+      opacity:0; transition:opacity .3s;
+      display:flex; align-items:flex-end; padding:12px;
+    }
+    .gal-item:hover .gal-overlay { opacity:1; }
+    .gal-overlay span {
+      font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:var(--white);
+    }
+
+    .gal-cta { text-align:center; margin-top:40px; }
+    .gal-cta p { font-family:var(--serif); font-style:italic; font-size:1rem; color:var(--mid); margin-bottom:18px; }
+
+    /* ─── DEPOIMENTOS ────────────────────────────────────────────── */
+    .deps { padding: 100px 0; background: var(--dark); }
+
+    .deps-header { text-align:center; max-width:480px; margin:0 auto 56px; }
+    .deps-header .headline { color:var(--white); margin-bottom:12px; }
+    .deps-header .headline em { color: var(--gold-pale); }
+    .deps-header .eyebrow { color: var(--gold-pale); }
+    .deps-header p { color: rgba(250,246,241,.55); font-size:.9rem; }
+
+    .deps-grid {
+      display:grid; grid-template-columns:1fr; gap:20px;
+    }
+    @media(min-width:600px){ .deps-grid { grid-template-columns:1fr 1fr; } }
+    @media(min-width:900px){ .deps-grid { grid-template-columns:repeat(3,1fr); } }
+
+    .dep {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 30px;
+      transition: var(--tr);
+    }
+    .dep:hover { border-color: rgba(184,146,74,0.3); background: rgba(184,146,74,0.06); }
+
+    /* Depoimento destaque — review real */
+    .dep.real {
+      background: rgba(184,146,74,0.1);
+      border-color: rgba(184,146,74,0.3);
+      grid-column: 1 / -1;
+    }
+    .real-badge {
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:.58rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+      color: var(--gold-pale); margin-bottom:12px;
+    }
+    .real-badge::before { content:'★ '; }
+
+    .dep-stars { display:flex; gap:3px; margin-bottom:14px; }
+    .dep-stars span { color: var(--gold-pale); font-size:.85rem; }
+
+    .dep-text {
+      font-family: var(--serif);
+      font-size: .98rem; font-style:italic; font-weight:400;
+      color: rgba(250,246,241,.85); line-height:1.75; margin-bottom:22px;
+    }
+    .dep-text strong { color: var(--gold-pale); font-style:normal; font-weight:600; }
+
+    .dep-author { display:flex; align-items:center; gap:12px; }
+    .dep-avatar {
+      width:36px; height:36px; border-radius:50%;
+      background: rgba(184,146,74,0.2);
+      border: 1px solid rgba(184,146,74,0.4);
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--serif); font-size:.95rem; color: var(--gold-pale);
+      flex-shrink:0;
+    }
+    .dep-name { font-size:.82rem; font-weight:500; color: rgba(250,246,241,.9); }
+    .dep-label { font-size:.65rem; color:rgba(250,246,241,.4); margin-top:2px; }
+
+    /* ─── COMO FUNCIONA ──────────────────────────────────────────── */
+    .como { padding: 100px 0; background: var(--white); }
+
+    .como-header { max-width:500px; margin-bottom:60px; }
+    .como-header .headline { margin-bottom:12px; }
+
+    .steps {
+      display:grid; grid-template-columns:1fr; gap:0;
+      position:relative;
+    }
+    @media(min-width:760px){
+      .steps { grid-template-columns:repeat(4,1fr); }
+      .steps::before {
+        content:'';
+        position:absolute; top:26px; left:0; right:0; height:1px;
+        background:linear-gradient(to right, var(--gold) 0%, rgba(184,146,74,0.1) 100%);
+      }
+    }
+
+    .step { padding:0 24px 0 0; position:relative; }
+    @media(max-width:759px){
+      .step { padding: 0 0 36px 52px; border-left:1px solid rgba(184,146,74,0.2); }
+      .step:last-child { padding-bottom:0; }
+    }
+
+    .step-num {
+      width:52px; height:52px;
+      border:1.5px solid var(--gold);
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--serif); font-size:1.1rem; font-weight:700;
+      color: var(--gold);
+      background: var(--white);
+      position:relative; z-index:1; flex-shrink:0;
+      margin-bottom:20px;
+    }
+    @media(max-width:759px){
+      .step-num { position:absolute; left:-26px; top:0; }
+    }
+    .step-title {
+      font-family:var(--serif);
+      font-size:1.05rem; font-weight:600;
+      color:var(--dark); margin-bottom:8px;
+    }
+    .step-desc { font-size:.8rem; font-weight:300; color:var(--mid); line-height:1.85; }
+
+    /* ─── BIO ────────────────────────────────────────────────────── */
+    .bio { padding: 100px 0; background: var(--cream-2); }
+
+    .bio-grid {
+      display:grid; grid-template-columns:1fr; gap:56px; align-items:center;
+    }
+    @media(min-width:860px){ .bio-grid { grid-template-columns:1fr 1fr; gap:80px; } }
+
+    .bio-frame {
+      aspect-ratio: 3/4;
+      background: var(--cream-3);
+      overflow:hidden; position:relative;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .bio-frame img { width:100%; height:100%; object-fit:cover; object-position:top; }
+    .bio-ph {
+      font-size:.78rem; color:var(--nude-dark); text-align:center;
+      font-family:var(--sans); font-weight:300; padding:24px;
+    }
+    /* Corner */
+    .bio-frame::after {
+      content:'';
+      position:absolute; top:16px; right:16px;
+      width:36px; height:36px;
+      border-top:2px solid var(--gold); border-right:2px solid var(--gold);
+      pointer-events:none; z-index:2;
+    }
+
+    .bio-badge {
+      position:absolute; bottom:-16px; left:-16px;
+      background: var(--gold); padding:18px 22px; text-align:center;
+    }
+    @media(max-width:859px){ .bio-badge { left:0; bottom:0; } }
+    .bio-badge-n { font-family:var(--serif); font-size:2rem; font-weight:700; color:var(--white); line-height:1; }
+    .bio-badge-l { font-size:.58rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.7); margin-top:3px; }
+
+    .bio-content .headline { margin:12px 0 20px; }
+
+    .bio-phrase {
+      font-family:var(--serif);
+      font-size:1.15rem; font-style:italic; font-weight:400;
+      color: var(--dark);
+      border-left:3px solid var(--gold); padding-left:20px;
+      margin-bottom:24px; line-height:1.65;
+    }
+
+    .bio-text { font-size:.9rem; font-weight:300; color:var(--dark-2); line-height:1.9; margin-bottom:12px; }
+
+    .bio-creds { display:flex; flex-wrap:wrap; gap:8px; margin-top:24px; }
+    .bio-cred {
+      display:flex; align-items:center; gap:6px;
+      font-size:.68rem; font-weight:500; letter-spacing:.1em;
+      color: var(--gold); padding:6px 14px;
+      border:1px solid rgba(184,146,74,0.3);
+      background: var(--white);
+    }
+    .bio-cred::before { content:'✦'; font-size:.5rem; }
+
+    /* ─── CTA FINAL ──────────────────────────────────────────────── */
+    .cta-final {
+      padding: 110px 0;
+      background: var(--cream);
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-final::before {
+      content: '';
+      position: absolute; top:0; left:0; right:0; bottom:0;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 50%, rgba(184,146,74,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-wrap { position:relative; z-index:1; max-width:580px; margin:0 auto; }
+    .cta-wrap .method-badge { margin-bottom:20px; }
+    .cta-wrap .headline { margin-bottom:16px; }
+    .cta-sub { font-size:.94rem; font-weight:300; color:var(--mid); line-height:1.9; margin-bottom:44px; }
+    .cta-btns { display:flex; flex-direction:column; align-items:center; gap:12px; }
+    @media(min-width:480px){ .cta-btns { flex-direction:row; justify-content:center; } }
+    .cta-note {
+      display:block; margin-top:20px;
+      font-size:.62rem; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+      color:var(--nude-dark);
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────── */
+    .footer {
+      background: var(--dark);
+      padding: 44px 0;
+    }
+    .footer-inner {
+      display:flex; flex-direction:column; gap:28px;
+      align-items:center; text-align:center;
+    }
+    @media(min-width:700px){
+      .footer-inner { flex-direction:row; justify-content:space-between; text-align:left; }
+    }
+    .f-logo {
+      font-family:var(--serif); font-size:1.35rem; font-weight:700;
+      color: var(--gold-pale);
+    }
+    .f-logo small {
+      display:block; font-family:var(--sans); font-size:.48rem;
+      letter-spacing:.28em; text-transform:uppercase; color: rgba(250,246,241,.4);
+      margin-top:2px;
+    }
+    .f-links { display:flex; gap:24px; }
+    .f-links a {
+      font-size:.65rem; letter-spacing:.18em; text-transform:uppercase;
+      color:rgba(250,246,241,.45); transition:color .3s;
+    }
+    .f-links a:hover { color:var(--gold-pale); }
+    .f-copy { font-size:.62rem; color:rgba(250,246,241,.25); letter-spacing:.1em; }
+
+    /* ─── WA FLOAT ───────────────────────────────────────────────── */
+    .wa {
+      position:fixed; bottom:24px; right:24px; z-index:99;
+      width:54px; height:54px;
+      background:#25D366; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 18px rgba(37,211,102,.35);
+      transition:transform .3s, box-shadow .3s;
+    }
+    .wa:hover { transform:scale(1.08); box-shadow:0 6px 26px rgba(37,211,102,.5); }
+    .wa svg { width:26px; height:26px; fill:#fff; }
+    .wa::before {
+      content:''; position:absolute; inset:-5px; border-radius:50%;
+      border:2px solid rgba(37,211,102,.35);
+      animation:pulse 2.5s ease-out infinite;
+    }
+    @keyframes pulse {
+      0%  { transform:scale(1);   opacity:.6; }
+      100%{ transform:scale(1.6); opacity:0; }
+    }
+
+    /* ─── HERO ENTRY ANIMS ───────────────────────────────────────── */
+    @keyframes up {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .hero-tag    { animation:up .65s ease both; animation-delay:.1s; }
+    .hero-title  { animation:up .65s ease both; animation-delay:.25s; }
+    .hero-sub    { animation:up .65s ease both; animation-delay:.4s; }
+    .hero-ctas   { animation:up .65s ease both; animation-delay:.55s; }
+    .hero-proof  { animation:up .65s ease both; animation-delay:.7s; }
+    .hero-visual { animation:up .65s ease both; animation-delay:.2s; }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ───────────────────────────────────────────── -->
+<nav class="nav" id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        Theodoro
+        <small>Clínica · Sobrancelhas · Goiânia</small>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#metodo">O Método</a></li>
+        <li><a href="#para-quem">Para Quem</a></li>
+        <li><a href="#resultado">Resultados</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+      </ul>
+
+      <a href="https://api.whatsapp.com/send/?phone=5562998521312&text=Olá%20Jéssika!%20Vi%20o%20site%20e%20quero%20saber%20mais%20sobre%20o%20Método%20Sobrancelha%20dos%20Sonhos.&type=phone_number&app_absent=0"
+         target="_blank" rel="noopener"
+         class="btn btn-gold nav-cta">
+        Agendar Avaliação
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── HERO ──────────────────────────────────────────── -->
+<section class="hero" id="inicio">
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="hero-content">
+        <div class="hero-tag">
+          <span>Método Exclusivo · Clínica Theodoro</span>
+        </div>
+
+        <h1 class="display hero-title">
+          A sobrancelha<br />
+          que você sempre<br />
+          <em>quis ter.</em>
+        </h1>
+
+        <p class="hero-sub">
+          O <strong>Método Sobrancelha dos Sonhos</strong> preenche falhas, melhora o formato,
+          aumenta os fios e ainda remove a micropigmentação antiga —
+          tudo de forma completamente natural.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="https://api.whatsapp.com/send/?phone=5562998521312&text=Olá%20Jéssika!%20Vi%20o%20site%20e%20quero%20saber%20mais%20sobre%20o%20Método%20Sobrancelha%20dos%20Sonhos.&type=phone_number&app_absent=0"
+             target="_blank" rel="noopener"
+             class="btn btn-gold">
+            Quero Conhecer o Método
+          </a>
+          <a href="#resultado" class="btn btn-outline">Ver Resultados</a>
+        </div>
+
+        <div class="hero-proof">
+          <div class="proof-item">
+            <span class="proof-n">+300</span>
+            <span class="proof-l">Transformações</span>
+          </div>
+          <div class="proof-item">
+            <span class="proof-n">12k</span>
+            <span class="proof-l">Seguidoras</span>
+          </div>
+          <div class="proof-item">
+            <span class="proof-n">5★</span>
+            <span class="proof-l">Google</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-frame">
+          <!--
+            SUBSTITUA pela foto principal (antes/depois ou Jéssika):
+            <img src="imagens/hero.jpg" alt="Método Sobrancelha dos Sonhos" />
+          -->
+          <div class="hero-placeholder">
+            Foto principal<br/>(antes e depois ou Jéssika)<br/>aqui
+          </div>
+        </div>
+
+        <div class="hero-float">
+          <p class="hero-float-text">
+            "Sobrancelhas cheias, com fios encorpados e um formato que valoriza muito o rosto."
+          </p>
+          <div class="hero-float-sub">Resultado Real · Clínica Theodoro</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── STRIP ──────────────────────────────────────────── -->
+<div class="strip">
+  <div class="container">
+    <div class="strip-row">
+      <div class="strip-item">Preenche falhas</div>
+      <div class="strip-item">Melhora o formato</div>
+      <div class="strip-item">Aumenta os fios</div>
+      <div class="strip-item">Remove micropig antiga</div>
+      <div class="strip-item">Elimina cor cinza</div>
+      <div class="strip-item">Crescimento natural</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── O MÉTODO ───────────────────────────────────────── -->
+<section class="metodo" id="metodo">
+  <div class="container">
+
+    <div class="metodo-header r">
+      <span class="eyebrow">O que é</span>
+      <div class="method-badge">Método Sobrancelha dos Sonhos</div>
+      <h2 class="headline">
+        Uma técnica exclusiva<br />
+        para sobrancelhas <em>naturais de verdade</em>
+      </h2>
+      <p class="section-sub">
+        Desenvolvido pela Jéssika Theodoro, o método não é micropigmentação.
+        É uma abordagem completa que atua em 6 frentes — do preenchimento ao estímulo do crescimento natural.
+      </p>
+    </div>
+
+    <div class="ben-grid">
+
+      <div class="ben-card r" style="transition-delay:.04s">
+        <div class="ben-num">01</div>
+        <div class="ben-title">Preenche as falhas</div>
+        <p class="ben-desc">
+          Técnica fio a fio que preenche áreas rarefeitas com precisão,
+          criando uma sobrancelha cheia e uniforme — como se sempre tivesse sido assim.
+        </p>
+      </div>
+
+      <div class="ben-card r" style="transition-delay:.09s">
+        <div class="ben-num">02</div>
+        <div class="ben-title">Melhora o formato</div>
+        <p class="ben-desc">
+          Redesenho baseado em mapeamento facial para um formato que realmente
+          harmoniza e valoriza o seu rosto — corrigindo assimetrias com precisão.
+        </p>
+      </div>
+
+      <div class="ben-card r" style="transition-delay:.14s">
+        <div class="ben-num">03</div>
+        <div class="ben-title">Aumenta os fios</div>
+        <p class="ben-desc">
+          O método estimula o crescimento real dos fios, aumentando a densidade
+          da sobrancelha ao longo do tratamento — não apenas visualmente.
+        </p>
+      </div>
+
+      <div class="ben-card r" style="transition-delay:.19s">
+        <div class="ben-num">04</div>
+        <div class="ben-title">Remove a micropig antiga</div>
+        <p class="ben-desc">
+          Para quem tem micropigmentação que mudou de cor ou ficou pesada,
+          o método trabalha para desfazer esse efeito e devolver aparência natural.
+        </p>
+      </div>
+
+      <div class="ben-card r" style="transition-delay:.24s">
+        <div class="ben-num">05</div>
+        <div class="ben-title">Elimina a cor cinza</div>
+        <p class="ben-desc">
+          A cor cinza indesejada — herança de micropigmentações antigas — é corrigida,
+          devolvendo tom natural que combina com a sua pele.
+        </p>
+      </div>
+
+      <div class="ben-card featured r" style="transition-delay:.29s">
+        <div class="ben-num">06</div>
+        <div class="ben-title">Resultado 100% natural</div>
+        <p class="ben-desc">
+          Sobrancelhas tão naturais que ninguém acredita que passaram por tratamento.
+          Só você vai saber — e vai adorar cada vez que se olhar no espelho.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROBLEMA ───────────────────────────────────────── -->
+<section class="problema" id="problema">
+  <div class="container">
+    <div class="problema-grid">
+
+      <div class="rl">
+        <span class="eyebrow">Você se reconhece?</span>
+        <h2 class="headline problema-title">
+          Sua sobrancelha<br />
+          te <em>incomoda</em><br />
+          faz tempo.
+        </h2>
+
+        <ul class="pain-list">
+          <li class="pain-item">
+            <div class="pain-check">✓</div>
+            Fios ralinhos e falhas que nenhuma maquiagem disfarça direito
+          </li>
+          <li class="pain-item">
+            <div class="pain-check">✓</div>
+            Micropigmentação antiga que ficou cinza ou envelheceu o olhar
+          </li>
+          <li class="pain-item">
+            <div class="pain-check">✓</div>
+            Formato que não combina com o seu rosto — muito fina, descida ou assimétrica
+          </li>
+          <li class="pain-item">
+            <div class="pain-check">✓</div>
+            Já tentou de tudo — produto, técnica, outro profissional — e nada resolveu
+          </li>
+          <li class="pain-item">
+            <div class="pain-check">✓</div>
+            Evita tirar fotos ou se olhar no espelho por causa disso
+          </li>
+          <li class="pain-item">
+            <div class="pain-check">✓</div>
+            Sente que as sobrancelhas "apagam" o olhar em vez de realçá-lo
+          </li>
+        </ul>
+
+        <div class="problema-quote">
+          <p>Existe um caminho. E ele começa com uma avaliação gratuita.</p>
+          <cite>— Jéssika Theodoro, criadora do Método</cite>
+        </div>
+      </div>
+
+      <div class="rr">
+        <div class="p-img">
+          <!--
+            SUBSTITUA pela foto antes/depois:
+            <img src="imagens/antes-depois-principal.jpg" alt="Resultado" />
+          -->
+          <div class="p-img-ph">Foto antes e depois aqui</div>
+          <div class="p-img-tag">Resultado Real · Sem Filtro</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── PARA QUEM ──────────────────────────────────────── -->
+<section class="para-quem" id="para-quem">
+  <div class="container">
+
+    <div class="para-quem-header r">
+      <span class="eyebrow">Para quem é</span>
+      <h2 class="headline">
+        O método foi feito<br />
+        <em>para você, se...</em>
+      </h2>
+      <p class="section-sub">Você se reconhece em algum desses perfis? Então temos a solução.</p>
+    </div>
+
+    <div class="perfis">
+
+      <div class="perfil r" style="transition-delay:.04s">
+        <div class="perfil-num">01</div>
+        <div class="perfil-title">Sobrancelhas ralas ou com falhas</div>
+        <p class="perfil-desc">
+          Seus fios são poucos ou deixam buracos visíveis que maquiagem não cobre de forma satisfatória.
+        </p>
+      </div>
+
+      <div class="perfil r" style="transition-delay:.09s">
+        <div class="perfil-num">02</div>
+        <div class="perfil-title">Micropig que envelheceu</div>
+        <p class="perfil-desc">
+          Fez micropigmentação, mas com o tempo a cor ficou cinza, pesada ou artificial — envelhecendo o olhar.
+        </p>
+      </div>
+
+      <div class="perfil r" style="transition-delay:.14s">
+        <div class="perfil-num">03</div>
+        <div class="perfil-title">Formato que não favorece</div>
+        <p class="perfil-desc">
+          Suas sobrancelhas têm um formato que não combina com o seu rosto — muito fina, grossa, descida ou assimétrica.
+        </p>
+      </div>
+
+      <div class="perfil r" style="transition-delay:.19s">
+        <div class="perfil-num">04</div>
+        <div class="perfil-title">Quer crescimento natural</div>
+        <p class="perfil-desc">
+          Quer sobrancelhas mais densas de verdade — estimulando o próprio crescimento dos seus fios.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── RESULTADO ──────────────────────────────────────── -->
+<section class="resultado" id="resultado">
+  <div class="container">
+
+    <div class="resultado-header r">
+      <span class="eyebrow">Transformações Reais</span>
+      <h2 class="headline">Antes &amp; <em>Depois</em></h2>
+      <p class="section-sub">Cada foto é um resultado real, de uma cliente real — sem filtro, sem edição.</p>
+    </div>
+
+    <div class="ad-feature r">
+      <div class="ad-side">
+        <!--
+          <img src="imagens/antes-principal.jpg" alt="Antes" />
+        -->
+        <div class="ad-ph">Foto ANTES aqui</div>
+        <div class="ad-label antes">Antes</div>
+      </div>
+      <div class="ad-side">
+        <!--
+          <img src="imagens/depois-principal.jpg" alt="Depois" />
+        -->
+        <div class="ad-ph">Foto DEPOIS aqui</div>
+        <div class="ad-label depois">Depois</div>
+      </div>
+    </div>
+
+    <div class="ad-caption r">
+      <p class="ad-caption-text">
+        "Antes: fios ralinhos, muitas falhas e sem formato — apagava totalmente o olhar.
+        Depois do Método Sobrancelha dos Sonhos: sobrancelhas cheias, com fios encorpados
+        e um formato que <strong>valoriza muito o rosto.</strong> Diferença surreal."
+      </p>
+    </div>
+
+    <div class="gal-grid">
+      <!--
+        SUBSTITUA cada placeholder pela sua foto:
+        <div class="gal-item r">
+          <img src="imagens/ad-2.jpg" alt="Resultado 2" />
+          <div class="gal-overlay"><span>Resultado Real</span></div>
+        </div>
+      -->
+      <div class="gal-item r" style="transition-delay:.04s">
+        <div class="gal-ph">Antes e Depois 2</div>
+        <div class="gal-overlay"><span>Resultado Real</span></div>
+      </div>
+      <div class="gal-item r" style="transition-delay:.09s">
+        <div class="gal-ph">Antes e Depois 3</div>
+        <div class="gal-overlay"><span>Resultado Real</span></div>
+      </div>
+      <div class="gal-item r" style="transition-delay:.14s">
+        <div class="gal-ph">Antes e Depois 4</div>
+        <div class="gal-overlay"><span>Resultado Real</span></div>
+      </div>
+      <div class="gal-item r" style="transition-delay:.19s">
+        <div class="gal-ph">Antes e Depois 5</div>
+        <div class="gal-overlay"><span>Resultado Real</span></div>
+      </div>
+      <div class="gal-item r" style="transition-delay:.24s">
+        <div class="gal-ph">Antes e Depois 6</div>
+        <div class="gal-overlay"><span>Resultado Real</span></div>
+      </div>
+      <div class="gal-item r" style="transition-delay:.29s">
+        <div class="gal-ph">Antes e Depois 7</div>
+        <div class="gal-overlay"><span>Resultado Real</span></div>
+      </div>
+    </div>
+
+    <div class="gal-cta r">
+      <p>Veja centenas de resultados no Instagram</p>
+      <a href="https://www.instagram.com/theodoro.beauty/" target="_blank" rel="noopener" class="btn btn-outline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        @theodoro.beauty
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── DEPOIMENTOS ────────────────────────────────────── -->
+<section class="deps" id="depoimentos">
+  <div class="container">
+
+    <div class="deps-header r">
+      <span class="eyebrow">O que elas dizem</span>
+      <h2 class="headline">Resultados <em>reais</em></h2>
+      <p>Palavras de quem passou pelo Método Sobrancelha dos Sonhos.</p>
+    </div>
+
+    <div class="deps-grid">
+
+      <!-- Depoimento real do Google — destaque -->
+      <div class="dep real r">
+        <div class="real-badge">Avaliação verificada · Google · 5 estrelas · 3 meses atrás</div>
+        <div class="dep-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="dep-text">
+          "Só gratidão ao trabalho de vocês! Hoje minhas sobrancelhas são outras.
+          <strong>Com a micropigmentação meu olhar estava extremamente envelhecido —
+          hoje tenho um olhar muito mais leve e jovial.</strong>
+          Amando bem mais minhas sobrancelhas!"
+        </p>
+        <div class="dep-author">
+          <div class="dep-avatar">R</div>
+          <div>
+            <div class="dep-name">Ricelia Sousa</div>
+            <div class="dep-label">Método Sobrancelha dos Sonhos</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dep r" style="transition-delay:.06s">
+        <div class="dep-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="dep-text">
+          "Nunca imaginei que minhas sobrancelhas poderiam ficar assim.
+          Tão naturais que as pessoas perguntam se são naturais. A Jéssika é incrível."
+        </p>
+        <div class="dep-author">
+          <div class="dep-avatar">A</div>
+          <div>
+            <div class="dep-name">Ana Clara M.</div>
+            <div class="dep-label">Reconstrução de Sobrancelhas</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dep r" style="transition-delay:.12s">
+        <div class="dep-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="dep-text">
+          "Tinha micropig cinza há anos. Depois do método parece que nunca existiu.
+          Me olhei no espelho e me senti linda de novo."
+        </p>
+        <div class="dep-author">
+          <div class="dep-avatar">F</div>
+          <div>
+            <div class="dep-name">Fernanda R.</div>
+            <div class="dep-label">Correção de Micropigmentação</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dep r" style="transition-delay:.18s">
+        <div class="dep-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="dep-text">
+          "Minha sobrancelha sempre foi ralinha e eu sofria com isso.
+          Agora estão cheias, com fios reais. O crescimento foi notável."
+        </p>
+        <div class="dep-author">
+          <div class="dep-avatar">M</div>
+          <div>
+            <div class="dep-name">Mariana S.</div>
+            <div class="dep-label">Preenchimento e Crescimento</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── COMO FUNCIONA ──────────────────────────────────── -->
+<section class="como" id="como-funciona">
+  <div class="container">
+
+    <div class="como-header r">
+      <span class="eyebrow">O caminho</span>
+      <h2 class="headline">Da avaliação ao <em>resultado dos sonhos</em></h2>
+      <p class="section-sub">Um processo pensado para o seu caso específico — do diagnóstico ao acompanhamento.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step r" style="transition-delay:.04s">
+        <div class="step-num">01</div>
+        <div class="step-title">Avaliação Gratuita</div>
+        <p class="step-desc">Analisamos o estado das suas sobrancelhas, o histórico de procedimentos e o que você deseja alcançar.</p>
+      </div>
+      <div class="step r" style="transition-delay:.1s">
+        <div class="step-num">02</div>
+        <div class="step-title">Diagnóstico Personalizado</div>
+        <p class="step-desc">Definimos o plano ideal — seja reconstrução, correção de micropig, preenchimento ou estimulação de crescimento.</p>
+      </div>
+      <div class="step r" style="transition-delay:.16s">
+        <div class="step-num">03</div>
+        <div class="step-title">Aplicação do Método</div>
+        <p class="step-desc">Técnica exclusiva, produtos de alta qualidade e toda a precisão necessária para entregar o melhor resultado.</p>
+      </div>
+      <div class="step r" style="transition-delay:.22s">
+        <div class="step-num">04</div>
+        <div class="step-title">Sobrancelha dos Sonhos</div>
+        <p class="step-desc">Natural, cheia, com formato perfeito — e a confiança de se olhar no espelho e se sentir linda.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── BIO ────────────────────────────────────────────── -->
+<section class="bio" id="sobre">
+  <div class="container">
+    <div class="bio-grid">
+
+      <div class="rl" style="position:relative">
+        <div class="bio-frame">
+          <!--
+            <img src="imagens/jessika.jpg" alt="Jéssika Theodoro" />
+          -->
+          <div class="bio-ph">Foto da Jéssika aqui</div>
+        </div>
+        <div class="bio-badge">
+          <div class="bio-badge-n">+300</div>
+          <div class="bio-badge-l">Transformações</div>
+        </div>
+      </div>
+
+      <div class="rr">
+        <span class="eyebrow">A criadora do método</span>
+        <h2 class="headline">Jéssika <em>Theodoro</em></h2>
+
+        <p class="bio-phrase">
+          "Eu não vendo procedimentos.<br/>
+          Eu devolvo a confiança de se olhar<br/>
+          no espelho e se sentir linda."
+        </p>
+
+        <p class="bio-text">
+          Sou especialista em reconstrução e design de sobrancelhas, e criei o Método Sobrancelha dos Sonhos
+          porque vi que as mulheres precisavam de uma solução real — não de mais uma micropigmentação
+          que envelhece com o tempo.
+        </p>
+        <p class="bio-text">
+          O método surgiu da combinação de técnica, estudo e escuta. Escuta de cada mulher que entrou
+          na clínica com sobrancelhas ralas, com falhas, com micropig cinza — e saiu com o rosto transformado
+          e a autoestima renovada.
+        </p>
+        <p class="bio-text">
+          Com mais de 300 transformações realizadas em Goiânia, o método continua evoluindo —
+          sempre com o mesmo objetivo: sobrancelhas que parecem naturais porque são tratadas com naturalidade.
+        </p>
+
+        <div class="bio-creds">
+          <span class="bio-cred">Método Exclusivo Próprio</span>
+          <span class="bio-cred">Especialista em Reconstrução</span>
+          <span class="bio-cred">Goiânia · GO</span>
+          <span class="bio-cred">+300 clientes</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA FINAL ──────────────────────────────────────── -->
+<section class="cta-final">
+  <div class="container">
+    <div class="cta-wrap r">
+      <span class="eyebrow">Seu momento chegou</span>
+      <div class="method-badge">Método Sobrancelha dos Sonhos</div>
+
+      <h2 class="headline">
+        Pronta para ter as<br />
+        sobrancelhas que você<br />
+        <em>sempre sonhou?</em>
+      </h2>
+
+      <p class="cta-sub">
+        Agende sua avaliação gratuita e descubra qual é o caminho certo
+        para as suas sobrancelhas. Sem pressão, sem compromisso —
+        só você, a Jéssika e o diagnóstico que vai mudar tudo.
+      </p>
+
+      <div class="cta-btns">
+        <a href="https://api.whatsapp.com/send/?phone=5562998521312&text=Olá%20Jéssika!%20Vi%20o%20site%20e%20quero%20agendar%20minha%20avaliação%20gratuita%20do%20Método%20Sobrancelha%20dos%20Sonhos.&type=phone_number&app_absent=0"
+           target="_blank" rel="noopener"
+           class="btn btn-gold" style="padding:18px 44px">
+          Quero Minha Avaliação Gratuita
+        </a>
+      </div>
+
+      <span class="cta-note">Avaliação 100% gratuita · Goiânia · Sem compromisso</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="f-logo">
+        Theodoro
+        <small>Sobrancelhas dos Sonhos · Goiânia</small>
+      </div>
+      <div class="f-links">
+        <a href="https://www.instagram.com/theodoro.beauty/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://api.whatsapp.com/send/?phone=5562998521312&type=phone_number&app_absent=0" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="#sobre">Sobre</a>
+      </div>
+      <div class="f-copy">© 2025 Clínica Theodoro. Goiânia, GO.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── WA FLOAT ───────────────────────────────────────── -->
+<a href="https://api.whatsapp.com/send/?phone=5562998521312&text=Olá%20Jéssika!%20Vi%20o%20site%20e%20quero%20saber%20mais%20sobre%20o%20Método%20Sobrancelha%20dos%20Sonhos.&type=phone_number&app_absent=0"
+   target="_blank" rel="noopener"
+   class="wa" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+</a>
+
+<!-- ─── SCRIPT ─────────────────────────────────────────── -->
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('up', window.scrollY > 40);
+  }, { passive: true });
+
+  // Scroll reveal
+  const els = document.querySelectorAll('.r, .rl, .rr');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+  els.forEach(el => io.observe(el));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
+
+</body>
+</html>
