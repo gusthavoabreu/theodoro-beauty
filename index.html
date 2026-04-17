@@ -290,7 +290,7 @@
       .hero-frame { aspect-ratio: 4/3; }
     }
     .hero-frame img {
-      width:100%; height:100%; object-fit:cover; object-position:top;
+      width:100%; height:100%; object-fit:cover; object-position:50% 25%;
     }
     .hero-placeholder {
       width:100%; height:100%;
@@ -624,10 +624,28 @@
     .deps-header p { color: rgba(250,246,241,.55); font-size:.9rem; }
 
     .deps-grid {
-      display:grid; grid-template-columns:1fr; gap:20px;
+      display:grid; grid-template-columns:1fr; gap:12px;
     }
     @media(min-width:600px){ .deps-grid { grid-template-columns:1fr 1fr; } }
     @media(min-width:900px){ .deps-grid { grid-template-columns:repeat(3,1fr); } }
+
+    /* Cards de avaliação em imagem */
+    .aval-card {
+      overflow: hidden;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: var(--tr);
+    }
+    .aval-card:hover { transform: translateY(-4px); border-color: rgba(184,146,74,0.3); }
+    .aval-card.destaque { grid-column: 1 / -1; }
+    @media(min-width:900px){ .aval-card.destaque { grid-column: 1 / 2; grid-row: 1 / 3; } }
+    .aval-card img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top;
+      display: block;
+    }
+    .aval-card.destaque img { object-fit: contain; background: #fff; }
 
     .dep {
       background: rgba(255,255,255,0.04);
@@ -1004,23 +1022,27 @@
 
     <div class="gal-grid">
       <div class="gal-item r" style="transition-delay:.04s">
-        <img src="imagens/avaliacao-0.jpg" alt="Resultado Real 1" />
+        <img src="imagens/galeria-1.jpeg" alt="Resultado 1" />
         <div class="gal-overlay"><span>Resultado Real</span></div>
       </div>
       <div class="gal-item r" style="transition-delay:.09s">
-        <img src="imagens/avaliacao-1.jpg" alt="Resultado Real 2" />
+        <img src="imagens/galeria-2.jpeg" alt="Resultado 2" />
         <div class="gal-overlay"><span>Resultado Real</span></div>
       </div>
       <div class="gal-item r" style="transition-delay:.14s">
-        <img src="imagens/avaliacao-2.jpg" alt="Resultado Real 3" />
+        <img src="imagens/galeria-3.jpeg" alt="Resultado 3" />
         <div class="gal-overlay"><span>Resultado Real</span></div>
       </div>
       <div class="gal-item r" style="transition-delay:.19s">
-        <img src="imagens/avaliacao-3.jpg" alt="Resultado Real 4" />
+        <img src="imagens/galeria-4.jpeg" alt="Resultado 4" />
         <div class="gal-overlay"><span>Resultado Real</span></div>
       </div>
       <div class="gal-item r" style="transition-delay:.24s">
-        <img src="imagens/avaliacao-4.jpg" alt="Resultado Real 5" />
+        <img src="imagens/galeria-5.jpeg" alt="Resultado 5" />
+        <div class="gal-overlay"><span>Resultado Real</span></div>
+      </div>
+      <div class="gal-item r" style="transition-delay:.29s">
+        <img src="imagens/galeria-6.jpeg" alt="Resultado 6" />
         <div class="gal-overlay"><span>Resultado Real</span></div>
       </div>
     </div>
@@ -1233,70 +1255,24 @@
 
     <div class="deps-grid">
 
-      <!-- Depoimento real do Google — destaque -->
-      <div class="dep real r">
-        <div class="real-badge">Avaliação verificada · Google · 5 estrelas · 3 meses atrás</div>
-        <div class="dep-stars">
-          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-        </div>
-        <p class="dep-text">
-          "Só gratidão ao trabalho de vocês! Hoje minhas sobrancelhas são outras.
-          <strong>Com a micropigmentação meu olhar estava extremamente envelhecido —
-          hoje tenho um olhar muito mais leve e jovial.</strong>
-          Amando bem mais minhas sobrancelhas!"
-        </p>
-        <div class="dep-author">
-          <div class="dep-avatar">R</div>
-          <div>
-            <div class="dep-name">Ricelia Sousa</div>
-            <div class="dep-label">Método Sobrancelha dos Sonhos</div>
-          </div>
-        </div>
+      <div class="aval-card destaque r">
+        <img src="imagens/avaliacao-0.jpg" alt="Avaliação cliente" />
       </div>
 
-      <div class="dep r" style="transition-delay:.06s">
-        <div class="dep-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <p class="dep-text">
-          "Nunca imaginei que minhas sobrancelhas poderiam ficar assim.
-          Tão naturais que as pessoas perguntam se são naturais. A Jéssika é incrível."
-        </p>
-        <div class="dep-author">
-          <div class="dep-avatar">A</div>
-          <div>
-            <div class="dep-name">Ana Clara M.</div>
-            <div class="dep-label">Reconstrução de Sobrancelhas</div>
-          </div>
-        </div>
+      <div class="aval-card r" style="transition-delay:.06s">
+        <img src="imagens/avaliacao-1.jpg" alt="Avaliação cliente" />
       </div>
 
-      <div class="dep r" style="transition-delay:.12s">
-        <div class="dep-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <p class="dep-text">
-          "Tinha micropig cinza há anos. Depois do método parece que nunca existiu.
-          Me olhei no espelho e me senti linda de novo."
-        </p>
-        <div class="dep-author">
-          <div class="dep-avatar">F</div>
-          <div>
-            <div class="dep-name">Fernanda R.</div>
-            <div class="dep-label">Correção de Micropigmentação</div>
-          </div>
-        </div>
+      <div class="aval-card r" style="transition-delay:.12s">
+        <img src="imagens/avaliacao-2.jpg" alt="Avaliação cliente" />
       </div>
 
-      <div class="dep r" style="transition-delay:.18s">
-        <div class="dep-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <p class="dep-text">
-          "Minha sobrancelha sempre foi ralinha e eu sofria com isso.
-          Agora estão cheias, com fios reais. O crescimento foi notável."
-        </p>
-        <div class="dep-author">
-          <div class="dep-avatar">M</div>
-          <div>
-            <div class="dep-name">Mariana S.</div>
-            <div class="dep-label">Preenchimento e Crescimento</div>
-          </div>
-        </div>
+      <div class="aval-card r" style="transition-delay:.18s">
+        <img src="imagens/avaliacao-3.jpg" alt="Avaliação cliente" />
+      </div>
+
+      <div class="aval-card r" style="transition-delay:.24s">
+        <img src="imagens/avaliacao-4.jpg" alt="Avaliação cliente" />
       </div>
 
     </div>
