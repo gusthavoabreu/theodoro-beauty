@@ -282,9 +282,12 @@
 
     .hero-frame {
       position: relative;
-      aspect-ratio: 4/5;
+      aspect-ratio: 3/2;
       background: var(--cream-3);
       overflow: hidden;
+    }
+    @media(min-width:860px){
+      .hero-frame { aspect-ratio: 4/3; }
     }
     .hero-frame img {
       width:100%; height:100%; object-fit:cover; object-position:top;
@@ -332,17 +335,31 @@
     /* ─── STRIP ──────────────────────────────────────────────────── */
     .strip {
       background: var(--dark);
-      padding: 20px 0;
+      padding: 18px 0;
       overflow: hidden;
+      white-space: nowrap;
+    }
+    .strip-track {
+      display: inline-flex;
+      gap: 0;
+      animation: marquee 22s linear infinite;
+    }
+    .strip:hover .strip-track { animation-play-state: paused; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
     .strip-row {
-      display:flex; gap:40px; flex-wrap:wrap; justify-content:center; align-items:center;
+      display: inline-flex;
+      gap: 0;
+      align-items: center;
     }
     .strip-item {
-      display:flex; align-items:center; gap:10px;
+      display:inline-flex; align-items:center; gap:10px;
       font-size: 0.65rem; font-weight:500;
       letter-spacing:.22em; text-transform:uppercase;
       color: rgba(250,246,241,0.7); white-space:nowrap;
+      padding: 0 36px;
     }
     .strip-item::before {
       content:''; width:4px; height:4px; border-radius:50%;
@@ -934,8 +951,18 @@
 
 <!-- ─── STRIP ──────────────────────────────────────────── -->
 <div class="strip">
-  <div class="container">
+  <div class="strip-track">
+    <!-- Primeira cópia -->
     <div class="strip-row">
+      <div class="strip-item">Preenche falhas</div>
+      <div class="strip-item">Melhora o formato</div>
+      <div class="strip-item">Aumenta os fios</div>
+      <div class="strip-item">Remove micropig antiga</div>
+      <div class="strip-item">Elimina cor cinza</div>
+      <div class="strip-item">Crescimento natural</div>
+    </div>
+    <!-- Segunda cópia para loop contínuo -->
+    <div class="strip-row" aria-hidden="true">
       <div class="strip-item">Preenche falhas</div>
       <div class="strip-item">Melhora o formato</div>
       <div class="strip-item">Aumenta os fios</div>
@@ -977,27 +1004,23 @@
 
     <div class="gal-grid">
       <div class="gal-item r" style="transition-delay:.04s">
-        <img src="imagens/galeria-1.jpeg" alt="Resultado 1" />
+        <img src="imagens/avaliacao-0.jpg" alt="Resultado Real 1" />
         <div class="gal-overlay"><span>Resultado Real</span></div>
       </div>
       <div class="gal-item r" style="transition-delay:.09s">
-        <img src="imagens/galeria-2.jpeg" alt="Resultado 2" />
+        <img src="imagens/avaliacao-1.jpg" alt="Resultado Real 2" />
         <div class="gal-overlay"><span>Resultado Real</span></div>
       </div>
       <div class="gal-item r" style="transition-delay:.14s">
-        <img src="imagens/galeria-3.jpeg" alt="Resultado 3" />
+        <img src="imagens/avaliacao-2.jpg" alt="Resultado Real 3" />
         <div class="gal-overlay"><span>Resultado Real</span></div>
       </div>
       <div class="gal-item r" style="transition-delay:.19s">
-        <img src="imagens/galeria-4.jpeg" alt="Resultado 4" />
+        <img src="imagens/avaliacao-3.jpg" alt="Resultado Real 4" />
         <div class="gal-overlay"><span>Resultado Real</span></div>
       </div>
       <div class="gal-item r" style="transition-delay:.24s">
-        <img src="imagens/galeria-5.jpeg" alt="Resultado 5" />
-        <div class="gal-overlay"><span>Resultado Real</span></div>
-      </div>
-      <div class="gal-item r" style="transition-delay:.29s">
-        <img src="imagens/galeria-6.jpeg" alt="Resultado 6" />
+        <img src="imagens/avaliacao-4.jpg" alt="Resultado Real 5" />
         <div class="gal-overlay"><span>Resultado Real</span></div>
       </div>
     </div>
