@@ -49,6 +49,7 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
+    html { overflow-x: hidden; }
     img { display:block; max-width:100%; }
     a { color:inherit; text-decoration:none; }
     .container { width: min(92%, 1040px); margin-inline: auto; }
@@ -138,33 +139,41 @@
     .hero-inner {
       display: grid;
       grid-template-columns: 1fr;
+      gap: 0;
     }
     @media(min-width:800px){
-      .hero-inner { grid-template-columns: 1fr 1fr; min-height: 85vh; }
+      .hero-inner { grid-template-columns: 1fr 1fr; align-items: center; }
     }
 
-    /* imagem ocupa a coluna toda, sem padding */
     .hero-img {
       order: 1;
-      position: relative;
-      min-height: 320px;
+      display: flex;
+      justify-content: center;
+      padding: 32px 24px 0;
     }
     @media(min-width:800px){
-      .hero-img { order: 2; min-height: unset; }
+      .hero-img { order: 2; padding: 48px 48px 48px 24px; }
     }
     .hero-img img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center top;
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center top;
       display: block;
+      border-radius: 4px;
+    }
+    @media(min-width:800px){
+      .hero-img img { max-width: 400px; }
     }
 
     .hero-content {
       order: 2;
       display: flex; flex-direction: column; justify-content: center;
-      padding: 48px 32px 80px;
+      padding: 32px 24px 80px;
     }
     @media(min-width:800px){
-      .hero-content { order: 1; padding: 60px 56px 80px 48px; }
+      .hero-content { order: 1; padding: 60px 48px 80px 48px; }
     }
 
     .hero-badge {
@@ -319,13 +328,14 @@
 
     /* ── WA FLOAT ── */
     .wa {
-      position:fixed; bottom:80px; right:22px; z-index:99;
-      width:52px; height:52px; background:#25D366; border-radius:50%;
+      position:fixed; bottom:80px; right:16px; z-index:99;
+      width:48px; height:48px; background:#25D366; border-radius:50%;
       display:flex; align-items:center; justify-content:center;
       box-shadow:0 4px 16px rgba(37,211,102,.35); transition:transform .3s;
+      overflow:hidden;
     }
     .wa:hover { transform:scale(1.08); }
-    .wa svg { width:25px; height:25px; fill:#fff; }
+    .wa svg { width:24px; height:24px; fill:#fff; flex-shrink:0; }
     .wa::before {
       content:''; position:absolute; inset:-4px; border-radius:50%;
       border:2px solid rgba(37,211,102,.35);
@@ -378,7 +388,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h1 class="display hero-title">
         Remoção de<br />
         Micropigmentação<br />
-        <em>de Sobrancelhas</em>
+        de Sobrancelhas<br />
+        <em>em Goiânia</em>
       </h1>
 
       <p class="hero-sub">
@@ -404,7 +415,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="trust-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          +300 clientes
+          +3.000 clientes
         </div>
         <div class="trust-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
@@ -484,7 +495,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h2 class="headline">Jéssika Theodoro,<br /><em>especialista em remoção</em></h2>
 
         <p class="sobre-text">
-          Com mais de <strong>300 clientes atendidas em Goiânia</strong>, Jéssika Theodoro
+          Com mais de <strong>3.000 clientes atendidas em Goiânia</strong>, Jéssika Theodoro
           é especialista em remoção e despigmentação de micropigmentação de sobrancelhas com laser.
         </p>
         <p class="sobre-text">
