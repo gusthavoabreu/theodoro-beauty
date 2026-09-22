@@ -123,6 +123,50 @@
       box-shadow: 0 16px 40px rgba(125,61,53,0.18);
     }
 
+    /* ── CTA (surge em 01:08 do vídeo) ── */
+    .esconder { display: none; }
+    .cta-wrap {
+      margin-top: 28px;
+      text-align: center;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--dark-cta);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(13px, 3.5vw, 16px);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 18px 40px;
+      border-radius: 50px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      animation: fadeUp 0.6s ease both;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 32px rgba(0,0,0,0.35);
+      background: #1a0e0c;
+    }
+    .cta-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
     /* ── FOOTER ── */
     .footer {
       background: var(--dark-cta);
@@ -160,6 +204,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <vturb-smartplayer id="vid-6ab2da3bb8ac813f3472235f" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>
       <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/bdff59bd-787d-4da4-9a9a-023e9ff41938/players/6ab2da3bb8ac813f3472235f/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
     </div>
+
+    <div class="cta-wrap esconder">
+      <a
+        href="https://forms.gle/rSRACby3mahGPkUZ6"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="cta-btn"
+        onclick="dataLayer.push({event:'cta_vaga_formulario'})"
+      >
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        Concorrer à vaga
+      </a>
+    </div>
   </div>
 </section>
 
@@ -167,6 +224,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <footer class="footer">
   <p>© 2026 Clínica Theodoro · Goiânia · Todos os direitos reservados</p>
 </footer>
+
+<script>
+  // botão surge em 01:08 do vídeo (API de delay do VTurb)
+  var segundosAteBotao = 68;
+  var player = document.querySelector("vturb-smartplayer");
+  player.addEventListener("player:ready", function () {
+    player.displayHiddenElements(segundosAteBotao, [".esconder"], { persist: true });
+  });
+</script>
 
 </body>
 </html>
