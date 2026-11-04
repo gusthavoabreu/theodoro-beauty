@@ -146,6 +146,18 @@ section{margin-top:38px}
 .legend .pc{color:var(--ink-3);font-variant-numeric:tabular-nums;width:48px;text-align:right}
 
 /* ---------- tabelas ---------- */
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.pill{font:inherit;font-size:13px;font-weight:700;padding:6px 13px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-2);cursor:pointer}
+.pill:hover{color:var(--accent)}
+.pill[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.etapa{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 10px;padding:9px 0;font-size:13.5px}
+.etapa .vl{font-weight:700;font-variant-numeric:tabular-nums}
+.etapa .tx{color:var(--ink-3);font-weight:400;margin-left:6px;font-size:12px}
+.etapa .trilho{grid-column:1 / -1;height:9px;border-radius:5px;background:var(--surface-2);overflow:hidden}
+.etapa .cheio{display:block;height:100%;border-radius:5px;background:var(--accent)}
+.linha-dado{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.linha-dado:last-child{border-bottom:none}
+.linha-dado span:last-child{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
 .table-scroll{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13.5px}
 th,td{padding:9px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line)}
@@ -292,6 +304,36 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   </section>
 
   <section>
+    <div class="sec-head"><h2>Funil de atendimento</h2><span class="hint" id="hint-funil">Carregando…</span></div>
+    <div class="pills" id="funil-meses" role="group" aria-label="Período do funil"></div>
+    <div id="funil-aviso"></div>
+    <div class="kpis" id="kpis-funil" style="margin-bottom:18px"></div>
+    <div class="grid g-3">
+      <div class="panel">
+        <h3>Do lead ao fechamento</h3>
+        <p class="p-sub">Percentual sobre a etapa anterior</p>
+        <div id="funil-etapas"></div>
+      </div>
+      <div class="panel">
+        <h3>Custos e taxas</h3>
+        <p class="p-sub">Todo o gasto da Meta no período, sobre todos os resultados</p>
+        <div id="funil-custos"></div>
+      </div>
+      <div class="panel">
+        <h3>Onde estão essas leads hoje</h3>
+        <p class="p-sub">Etapa atual no CRM</p>
+        <div id="funil-onde"></div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:18px">
+      <h3>Mês a mês</h3>
+      <p class="p-sub">Leads pela data de chegada, agendadas pela data da marcação e baixas pela data do registro</p>
+      <div class="table-scroll"><table id="tb-funil"></table></div>
+      <p class="tfoot-note">Viraram clientes e receita cruzam o telefone da lead com a planilha de atendimentos e valem como mínimo. Quem já era cliente fica de fora. Cancelamentos de meses passados também são mínimo, porque a agenda descarta os apagados antigos.</p>
+    </div>
+  </section>
+
+  <section>
     <div class="sec-head"><h2>Valor da cliente (LTV)</h2><span class="hint" id="hint-ltv"></span></div>
     <div class="kpis" id="kpis-ltv" style="margin-bottom:18px"></div>
     <div class="grid g-2">
@@ -358,7 +400,7 @@ let TRAFEGO = [{"Mes": "2023-09", "Investimento": 803.67, "Impressoes": 165832, 
 // se o fetch da planilha for bloqueado (visualizador sem acesso à rede, offline), o painel
 // ainda abre com dados e avisa que está mostrando a cópia.
 const SNAPSHOT_CSV = ``;
-const SNAPSHOT_DATA = "03/11/2026";
+const SNAPSHOT_DATA = "04/11/2026";
 
 /* =========================================================================
    2. LEITURA E LIMPEZA DO CSV
@@ -959,6 +1001,119 @@ function tabelaTrafego(trafegoMes){
 }
 
 /* =========================================================================
+   FUNIL DE ATENDIMENTO
+   Totais por mês vindos da IA da clínica, copiados de hora em hora para a branch `dados` do
+   repositório do site. Só contagens e somas: nenhum dado pessoal passa por aqui.
+   ========================================================================= */
+const FUNIL_URL = "https://raw.githubusercontent.com/gusthavoabreu/theodoro-beauty/dados/funil.json";
+let FUNIL = null, FUNIL_SEL = null;
+
+const somaOuNulo = (meses, campo) => meses.some(m => m[campo] === null) ? null : meses.reduce((s, m) => s + m[campo], 0);
+const nDe = v => v === null ? "–" : fmtN.format(v);
+const taxa = (a, b) => (a !== null && b > 0) ? pct(a/b) : "–";
+const custoPor = (gasto, n) => (gasto > 0 && n > 0) ? fmtR$.format(gasto/n) : "–";
+
+function somarFunil(meses){
+  const c = {};
+  ["leads","iaAtendeu","passouParaEquipe","agendadas","canceladas","compareceram","faltaram","fecharam",
+   "naoFecharam","custoIaUsd","viraramClientes","jaEramClientes","receitaDasLeads"].forEach(k => c[k] = somaOuNulo(meses, k));
+  c.ads = meses.reduce((s, m) => s + m.porOrigem.ads, 0);
+  c.insta = meses.reduce((s, m) => s + m.porOrigem.insta, 0);
+  c.mediana = meses.length === 1 ? meses[0].medianaDiasAteAvaliacao : null;
+  c.onde = {};
+  meses.forEach(m => Object.entries(m.ondeEstao).forEach(([k, v]) => c.onde[k] = (c.onde[k] || 0) + v));
+  const chaves = new Set(meses.map(m => m.mes));
+  const tr = TRAFEGO.filter(t => chaves.has(t.Mes));
+  c.investimento = tr.reduce((s, t) => s + t.Investimento, 0);
+  c.conversasMeta = tr.reduce((s, t) => s + t.Conversas_Iniciadas, 0);
+  return c;
+}
+
+function renderFunil(){
+  if (!FUNIL) return;
+  const meses = FUNIL_SEL === "todos" ? FUNIL.meses : FUNIL.meses.filter(m => m.mes === FUNIL_SEL);
+  const c = somarFunil(meses);
+  const baixas = c.compareceram + c.faltaram;
+
+  el("funil-meses").innerHTML =
+    [...FUNIL.meses.map(m => [m.mes, rotuloMes(m.mes)]), ["todos", "Todos"]]
+      .map(([k, r]) => `<button type="button" class="pill" data-mes="${k}" aria-pressed="${k === FUNIL_SEL}">${r}</button>`).join("");
+
+  const noMesAtual = meses.some(m => m === FUNIL.meses[FUNIL.meses.length-1]);
+  const avisos = [];
+  if (c.agendadas > 0 && baixas / c.agendadas < .5)
+    avisos.push(`<b>Baixas incompletas:</b> ${fmtN.format(baixas)} registradas para ${fmtN.format(c.agendadas)} avaliações agendadas. Comparecimento, no-show e fechamento deste período não são confiáveis.`);
+  if (noMesAtual && FUNIL_SEL !== "todos") avisos.push("Mês em andamento: os números ainda vão mudar.");
+  el("funil-aviso").innerHTML = avisos.map(a => `<div class="notice" style="margin-bottom:14px">${a}</div>`).join("");
+
+  el("kpis-funil").innerHTML = [
+    tile("Leads", nDe(c.leads), `${fmtN.format(c.ads)} anúncio · ${fmtN.format(c.insta)} Instagram`),
+    tile("Agendadas", nDe(c.agendadas), `${taxa(c.agendadas, c.leads)} das leads`),
+    tile("Compareceram", nDe(c.compareceram), `${taxa(c.compareceram, baixas)} das baixas`),
+    tile("Faltaram", nDe(c.faltaram), `no-show de ${taxa(c.faltaram, baixas)}`),
+    tile("Fecharam", nDe(c.fecharam), `${taxa(c.fecharam, c.compareceram)} de quem compareceu`),
+    tile("Receita das leads", c.receitaDasLeads === null ? "–" : fmtR$0.format(c.receitaDasLeads), `${nDe(c.viraramClientes)} viraram clientes (mínimo)`)
+  ].join("");
+
+  const etapas = [["Leads", c.leads], ["Atendidas pela Ana", c.iaAtendeu], ["Agendadas", c.agendadas], ["Compareceram", c.compareceram], ["Fecharam", c.fecharam]];
+  el("funil-etapas").innerHTML = etapas.map(([nome, v], i) => {
+    const largura = (v !== null && c.leads > 0) ? Math.min(100, v / c.leads * 100) : 0;
+    return `<div class="etapa"><span>${nome}</span><span class="vl">${nDe(v)}${i ? `<span class="tx">${taxa(v, etapas[i-1][1])}</span>` : ""}</span>
+      <span class="trilho"><span class="cheio" style="width:${largura.toFixed(1)}%"></span></span></div>`;
+  }).join("");
+
+  const dado = (r, v) => `<div class="linha-dado"><span>${r}</span><span>${v}</span></div>`;
+  const usd = c.custoIaUsd > 0 ? "US$ " + c.custoIaUsd.toFixed(2).replace(".", ",") : "–";
+  el("funil-custos").innerHTML = [
+    dado("Investimento na Meta", c.investimento > 0 ? fmtR$.format(c.investimento) : "–"),
+    dado("Custo por lead de anúncio", custoPor(c.investimento, c.ads)),
+    dado("Custo por agendamento", custoPor(c.investimento, c.agendadas)),
+    dado("Custo por avaliação realizada", custoPor(c.investimento, c.compareceram)),
+    dado("Custo por fechamento", custoPor(c.investimento, c.fecharam)),
+    dado("Lead que agendou", taxa(c.agendadas, c.leads)),
+    dado("Passadas para a equipe", nDe(c.passouParaEquipe)),
+    dado("Canceladas (mínimo)", nDe(c.canceladas)),
+    dado("Dias até a avaliação (mediana)", c.mediana === null ? "–" : String(c.mediana).replace(".", ",")),
+    dado("Conversas contadas pela Meta", c.conversasMeta > 0 ? fmtN.format(c.conversasMeta) : "–"),
+    dado("Custo da Ana", usd)
+  ].join("");
+
+  const onde = Object.entries(c.onde).sort((a, b) => b[1] - a[1]);
+  el("funil-onde").innerHTML = onde.map(([k, v]) => dado(k.replace(/[<>&]/g, ""), `${fmtN.format(v)} · ${taxa(v, c.leads)}`)).join("");
+
+  el("tb-funil").innerHTML =
+    `<thead><tr><th>Mês</th><th class="num">Leads</th><th class="num">Agendadas</th><th class="num">Canceladas</th><th class="num">Compareceram</th><th class="num">Faltaram</th>
+      <th class="num">No-show</th><th class="num">Fecharam</th><th class="num">Viraram clientes</th><th class="num">Receita das leads</th><th class="num">Custo/avaliação</th></tr></thead><tbody>` +
+    [...FUNIL.meses].reverse().map(m => {
+      const s = somarFunil([m]), b = s.compareceram + s.faltaram;
+      return `<tr><td>${rotuloMes(m.mes)}</td><td class="num">${nDe(s.leads)}</td><td class="num">${nDe(s.agendadas)}</td><td class="num">${nDe(s.canceladas)}</td>
+        <td class="num">${nDe(s.compareceram)}</td><td class="num">${nDe(s.faltaram)}</td><td class="num">${taxa(s.faltaram, b)}</td><td class="num">${nDe(s.fecharam)}</td>
+        <td class="num">${nDe(s.viraramClientes)}</td><td class="num">${s.receitaDasLeads === null ? "–" : fmtR$0.format(s.receitaDasLeads)}</td><td class="num">${custoPor(s.investimento, s.compareceram)}</td></tr>`;
+    }).join("") + "</tbody>";
+
+  el("hint-funil").textContent = "CRM calculado em " + new Date(FUNIL.geradoEm).toLocaleString("pt-BR");
+}
+
+async function carregarFunil(){
+  try{
+    const r = await fetch(FUNIL_URL + "?_=" + Date.now(), {cache:"no-store"});
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    FUNIL = await r.json();
+    if (!FUNIL.meses || !FUNIL.meses.length) throw new Error("sem meses");
+    if (!FUNIL_SEL){
+      const m = FUNIL.meses;
+      FUNIL_SEL = m[Math.max(0, m.length - 2)].mes;   // último mês fechado
+    }
+    renderFunil();
+  } catch(e){
+    if (!FUNIL){
+      el("hint-funil").textContent = "";
+      el("funil-aviso").innerHTML = `<div class="notice err">Não foi possível ler os dados do funil agora (${e.message}).</div>`;
+    }
+  }
+}
+
+/* =========================================================================
    8. KPIs E LEITURA EXECUTIVA
    ========================================================================= */
 function tile(label, valor, sub){
@@ -1146,6 +1301,7 @@ async function carregar(primeiraCarga){
   montarFiltros();
   marcarStatus();
   render();
+  carregarFunil();
   btn.disabled = false; btn.textContent = "Atualizar dados";
 }
 
@@ -1160,6 +1316,10 @@ if (SNAPSHOT_CSV.trim()){
 carregar(true);
 
 el("btn-refresh").addEventListener("click", () => carregar(false));
+el("funil-meses").addEventListener("click", e => {
+  const b = e.target.closest("[data-mes]");
+  if (b){ FUNIL_SEL = b.dataset.mes; renderFunil(); }
+});
 el("filters").addEventListener("change", e => { if (e.target.matches("select,input")) render(); });
 el("btn-clear").addEventListener("click", () => {
   ["f-prof","f-proc","f-orig","f-pgto","f-prim"].forEach(id => el(id).value = "");
