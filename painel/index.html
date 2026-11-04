@@ -1,0 +1,1176 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Painel Studio Theodoro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Karla:wght@400;500;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+</head>
+<body>
+<style>
+/* ============================================================
+   TOKENS — paleta validada (light e dark) para daltonismo e contraste
+   Série categórica: vinho / turquesa / âmbar / violeta
+   ============================================================ */
+:root{
+  color-scheme: light;
+  --ground:#F6F3F2; --surface:#FFFFFF; --surface-2:#FBF8F9;
+  --ink:#221B21; --ink-2:#584E56; --ink-3:#8A7F87;
+  --line:#E5DDE1; --line-strong:#CFC3CA;
+  --accent:#A62C5B; --accent-soft:#F7E7EE;
+  --s1:#A62C5B; --s2:#1F8FA8; --s3:#E08A2E; --s4:#6B4FBB;
+  --good:#1B7A4B; --warn:#B3541E;
+  --shadow:0 1px 2px rgba(34,27,33,.05), 0 8px 24px -16px rgba(34,27,33,.25);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --ground:#17141A; --surface:#211C23; --surface-2:#1B171D;
+    --ink:#F4EFF2; --ink-2:#BFB2BB; --ink-3:#8D8189;
+    --line:#332B36; --line-strong:#4A3F4D;
+    --accent:#D9628C; --accent-soft:#38222D;
+    --s1:#D9628C; --s2:#1E9FB4; --s3:#C07E22; --s4:#9384E8;
+    --good:#4FB07B; --warn:#DB8A4E;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --ground:#17141A; --surface:#211C23; --surface-2:#1B171D;
+  --ink:#F4EFF2; --ink-2:#BFB2BB; --ink-3:#8D8189;
+  --line:#332B36; --line-strong:#4A3F4D;
+  --accent:#D9628C; --accent-soft:#38222D;
+  --s1:#D9628C; --s2:#1E9FB4; --s3:#C07E22; --s4:#9384E8;
+  --good:#4FB07B; --warn:#DB8A4E;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"Karla","Helvetica Neue",Arial,sans-serif;
+  font-size:15px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1280px; margin:0 auto; padding:0 24px 72px}
+h1,h2,h3{font-family:"Fraunces","Iowan Old Style",Georgia,serif; font-weight:600; text-wrap:balance; margin:0}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- cabeçalho ---------- */
+header.top{
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+}
+.top-in{max-width:1280px;margin:0 auto;padding:26px 24px 22px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between}
+.brand .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.brand h1{font-size:31px;line-height:1.1;margin-top:6px}
+.brand p{margin:6px 0 0;color:var(--ink-2);font-size:14px;max-width:56ch}
+.top-actions{display:flex;align-items:center;gap:14px}
+.status{font-size:12.5px;color:var(--ink-2);text-align:right;max-width:34ch}
+.status b{color:var(--ink);font-weight:700}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--good);margin-right:6px;vertical-align:1px}
+.dot.off{background:var(--warn)}
+button.refresh{
+  font:inherit;font-weight:700;font-size:13.5px;cursor:pointer;
+  background:var(--accent);color:#fff;border:none;border-radius:999px;padding:11px 20px;
+  transition:filter .15s ease, transform .15s ease;
+}
+button.refresh:hover{filter:brightness(1.08)}
+button.refresh:active{transform:translateY(1px)}
+button.refresh[disabled]{opacity:.55;cursor:progress}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- filtros ---------- */
+.filters{
+  position:sticky; top:0; z-index:20;
+  background:color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+  margin-bottom:26px;
+}
+.filters-in{max-width:1280px;margin:0 auto;padding:12px 24px;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.field select,.field input{
+  font:inherit;font-size:13.5px;color:var(--ink);background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:8px;padding:7px 9px;min-width:120px;max-width:190px;
+}
+.field.wide select{max-width:230px}
+button.clear{
+  font:inherit;font-size:13px;font-weight:700;color:var(--accent);background:none;
+  border:1px solid var(--line-strong);border-radius:8px;padding:8px 14px;cursor:pointer;
+}
+button.clear:hover{background:var(--accent-soft)}
+
+/* ---------- faixa de KPIs ---------- */
+.kpis{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;box-shadow:var(--shadow);
+}
+.kpis.k7{grid-template-columns:repeat(7,1fr)}
+.kpis.k7 .kpi{padding:18px 15px}
+.kpis.k7 .k-value{font-size:23px}
+.kpi{padding:18px 20px;border-left:1px solid var(--line)}
+.kpi:first-child{border-left:none}
+.kpi .k-label{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.kpi .k-value{font-family:"Fraunces",Georgia,serif;font-size:26px;line-height:1.15;margin-top:7px;font-variant-numeric:tabular-nums}
+.kpi .k-sub{font-size:12px;color:var(--ink-2);margin-top:4px}
+
+/* ---------- seções e painéis ---------- */
+section{margin-top:38px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.sec-head h2{font-size:20px}
+.sec-head .hint{font-size:12.5px;color:var(--ink-3)}
+.grid{display:grid;gap:18px}
+.g-2{grid-template-columns:repeat(2,1fr)}
+.g-3{grid-template-columns:repeat(3,1fr)}
+.g-32{grid-template-columns:1.55fr 1fr}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px 20px;box-shadow:var(--shadow);min-width:0}
+.panel h3{font-size:15.5px;font-family:"Karla",sans-serif;font-weight:700;letter-spacing:.01em}
+.panel .p-sub{font-size:12.5px;color:var(--ink-3);margin:3px 0 12px}
+.chart-box{position:relative;height:270px}
+.chart-box.tall{height:340px}
+
+/* ---------- legenda com rótulo direto ---------- */
+.legend{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
+.legend li{display:flex;align-items:center;gap:9px;font-size:13px}
+.legend .swatch{width:11px;height:11px;border-radius:3px;flex:none}
+.legend .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}
+.legend .vl{font-weight:700;font-variant-numeric:tabular-nums}
+.legend .pc{color:var(--ink-3);font-variant-numeric:tabular-nums;width:48px;text-align:right}
+
+/* ---------- tabelas ---------- */
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{padding:9px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+thead th{
+  font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:700;border-bottom:1px solid var(--line-strong);position:sticky;top:0;background:var(--surface);
+}
+thead th.sortable{cursor:pointer;user-select:none}
+thead th.sortable:hover{color:var(--accent)}
+thead th .arrow{opacity:.45;font-size:9px}
+tbody tr:hover{background:var(--surface-2)}
+td.num,th.num{font-variant-numeric:tabular-nums}
+.bar-cell{position:relative}
+.bar-cell .fill{position:absolute;left:0;top:50%;transform:translateY(-50%);height:20px;border-radius:0 4px 4px 0;background:var(--accent-soft)}
+.bar-cell span{position:relative}
+.tfoot-note{font-size:12px;color:var(--ink-3);margin-top:10px}
+
+/* ---------- leitura executiva ---------- */
+.insights{display:grid;grid-template-columns:repeat(2,1fr);gap:0 30px}
+.ins{padding:14px 0;border-bottom:1px solid var(--line);display:flex;gap:13px;align-items:flex-start}
+.ins .mark{font-family:"Fraunces",Georgia,serif;font-size:13px;font-weight:600;color:var(--accent);padding-top:2px;min-width:16px}
+.ins p{margin:0;font-size:14px;color:var(--ink-2)}
+.ins p b{color:var(--ink);font-weight:700}
+.callout{
+  margin-top:18px;padding:16px 18px;border-left:3px solid var(--accent);
+  background:var(--accent-soft);border-radius:0 10px 10px 0;font-size:14px;
+}
+.callout b{font-weight:700}
+
+/* ---------- estados ---------- */
+.notice{padding:12px 16px;border:1px solid var(--line-strong);border-radius:10px;background:var(--surface-2);font-size:13.5px;color:var(--ink-2);margin-top:16px}
+.notice.err{border-color:var(--warn);color:var(--ink)}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+
+@media (max-width:1080px){
+  .kpis{grid-template-columns:repeat(3,1fr)}
+  .kpi:nth-child(4){border-left:none}
+  .kpi:nth-child(n+4){border-top:1px solid var(--line)}
+  .g-32,.g-2,.g-3{grid-template-columns:1fr}
+  .insights{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  .wrap,.top-in,.filters-in{padding-left:16px;padding-right:16px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .kpi{border-left:none;border-top:1px solid var(--line)}
+  .kpi:nth-child(-n+2){border-top:none}
+  .kpi:nth-child(odd){border-right:1px solid var(--line)}
+  .brand h1{font-size:25px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <div class="eyebrow">Studio Jessika Theodoro &middot; Goiânia</div>
+      <h1>Painel de atendimentos e tráfego</h1>
+      <p>Cada linha é um procedimento registrado no formulário do studio. O bloco de tráfego cruza esses atendimentos com o investimento em anúncios da Meta.</p>
+    </div>
+    <div class="top-actions">
+      <div class="status" id="status"><span class="dot"></span>Carregando…</div>
+      <button class="refresh" id="btn-refresh" type="button">Atualizar dados</button>
+    </div>
+  </div>
+</header>
+
+<div class="filters">
+  <div class="filters-in" id="filters">
+    <div class="field"><label for="f-de">De</label><input type="date" id="f-de"></div>
+    <div class="field"><label for="f-ate">Até</label><input type="date" id="f-ate"></div>
+    <div class="field"><label for="f-prof">Profissional</label><select id="f-prof"></select></div>
+    <div class="field wide"><label for="f-proc">Procedimento</label><select id="f-proc"></select></div>
+    <div class="field"><label for="f-orig">Onde nos conheceu</label><select id="f-orig"></select></div>
+    <div class="field"><label for="f-pgto">Pagamento</label><select id="f-pgto"></select></div>
+    <div class="field"><label for="f-prim">Primeira vez</label><select id="f-prim"></select></div>
+    <button class="clear" id="btn-clear" type="button">Limpar filtros</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="kpis k7" id="kpis"></div>
+  <div id="avisos"></div>
+
+  <section>
+    <div class="sec-head"><h2>Faturamento</h2><span class="hint" id="hint-periodo"></span></div>
+    <div class="grid g-32">
+      <div class="panel">
+        <h3>Faturamento por mês</h3>
+        <p class="p-sub">Soma de Valor Pago pela data do atendimento</p>
+        <div class="chart-box tall"><canvas id="ch-fat"></canvas></div>
+      </div>
+      <div class="panel">
+        <h3>Novos x recorrentes</h3>
+        <p class="p-sub">Atendimentos por mês, pela resposta “Primeira vez no Studio?”</p>
+        <div class="chart-box tall"><canvas id="ch-ret"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Procedimentos e equipe</h2><span class="hint">Grafias equivalentes são agrupadas</span></div>
+    <div class="grid g-2">
+      <div class="panel">
+        <h3>Os 10 procedimentos que mais faturam</h3>
+        <p class="p-sub">Faturamento no período filtrado</p>
+        <div class="chart-box tall"><canvas id="ch-proc"></canvas></div>
+      </div>
+      <div class="panel">
+        <h3>Faturamento por profissional</h3>
+        <p class="p-sub">“Equipe” é o registro sem profissional identificado</p>
+        <div class="chart-box tall"><canvas id="ch-prof"></canvas></div>
+      </div>
+    </div>
+    <div class="grid g-2" style="margin-top:18px">
+      <div class="panel">
+        <h3>Como a cliente conheceu o studio</h3>
+        <p class="p-sub">Atendimentos por origem declarada</p>
+        <div class="chart-box"><canvas id="ch-orig"></canvas></div>
+        <ul class="legend" id="lg-orig"></ul>
+      </div>
+      <div class="panel">
+        <h3>Forma de pagamento</h3>
+        <p class="p-sub">Faturamento por meio de pagamento</p>
+        <div class="chart-box"><canvas id="ch-pgto"></canvas></div>
+        <ul class="legend" id="lg-pgto"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Tráfego pago</h2><span class="hint" id="hint-trafego"></span></div>
+    <div class="kpis" id="kpis-trafego" style="margin-bottom:18px"></div>
+    <div class="panel">
+      <h3>Investimento x faturamento vindo de anúncio</h3>
+      <p class="p-sub">Mesma escala em reais. O faturamento considera apenas clientes que declararam ter chegado por Anúncio Instagram ou Anúncio Google.</p>
+      <div class="chart-box tall"><canvas id="ch-traf"></canvas></div>
+    </div>
+    <div class="panel" style="margin-top:18px">
+      <h3>Mês a mês</h3>
+      <p class="p-sub">Meta Ads · conta Studio Jessika Theodoro Beauty</p>
+      <div class="table-scroll"><table id="tb-traf"></table></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Valor da cliente (LTV)</h2><span class="hint" id="hint-ltv"></span></div>
+    <div class="kpis" id="kpis-ltv" style="margin-bottom:18px"></div>
+    <div class="grid g-2">
+      <div class="panel">
+        <h3>Quanto uma cliente acumula com o tempo</h3>
+        <p class="p-sub">Receita média já acumulada por cliente a cada mês depois da primeira visita, separada pelo ano em que a cliente chegou. Cada linha vai até onde 80% da turma já tem aquele tempo de casa — depois disso a média mudaria de população, não de valor.</p>
+        <div class="chart-box tall"><canvas id="ch-ltv"></canvas></div>
+      </div>
+      <div class="panel">
+        <h3>Clientes por faixa de gasto acumulado</h3>
+        <p class="p-sub">Quantas clientes há em cada faixa de LTV. O tooltip mostra quanto a faixa representa do faturamento.</p>
+        <div class="chart-box tall"><canvas id="ch-ltv-faixa"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Detalhamento</h2><span class="hint">Clique no cabeçalho para reordenar</span></div>
+    <div class="panel">
+      <h3>Por procedimento</h3>
+      <p class="p-sub">Os 20 primeiros da ordenação atual</p>
+      <div class="table-scroll"><table id="tb-proc"></table></div>
+      <p class="tfoot-note" id="nota-proc"></p>
+    </div>
+    <div class="panel" style="margin-top:18px">
+      <h3>Melhores clientes</h3>
+      <p class="p-sub">Maior faturamento acumulado no período</p>
+      <div class="table-scroll"><table id="tb-cli"></table></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Leitura executiva</h2><span class="hint">Recalculada a cada filtro</span></div>
+    <div class="panel">
+      <div class="insights" id="insights"></div>
+      <div class="callout" id="resumo"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Fonte dos atendimentos: aba “Respostas ao formulário 1” da planilha do studio. Fonte do tráfego: API de Marketing da Meta, conta Studio Jessika Theodoro Beauty.</span>
+    <span id="rodape-atualizacao"></span>
+  </footer>
+</div>
+
+<script>
+/* =========================================================================
+   1. FONTES DE DADOS  — os dois pontos de edição do arquivo
+   ========================================================================= */
+
+// Aba "Respostas ao formulário 1" publicada como CSV. Troque aqui se o link mudar.
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQIilh1YxpeXJjwZXZFPJ-J4guR-DqWvCM-ucKWjxD6Or15p8V04D2kjsiz9YC-ZIa9AoYGzWUueToh/pub?gid=653216000&single=true&output=csv";
+
+// Opcional: se a série de tráfego virar uma aba publicada da planilha, cole aqui a URL
+// CSV dela (colunas Mes;Investimento;Impressoes;Alcance;Cliques;CTR;CPM;CPC;Conversas_Iniciadas;Custo_por_Conversa).
+// Vazio = usa a série embutida abaixo.
+const CSV_TRAFEGO_URL = "";
+
+// Série mensal do Meta Ads (act_362209252109459), apurada pela API de Marketing.
+// Fica embutida porque o token da Meta não pode viajar dentro de uma página publicada.
+let TRAFEGO = [{"Mes": "2023-09", "Investimento": 803.67, "Impressoes": 165832, "Alcance": 115828, "Cliques": 1539, "CTR": 0.93, "CPM": 4.85, "CPC": 0.52, "Conversas_Iniciadas": 149, "Custo_por_Conversa": 5.39}, {"Mes": "2023-10", "Investimento": 655.88, "Impressoes": 68060, "Alcance": 39936, "Cliques": 1101, "CTR": 1.62, "CPM": 9.64, "CPC": 0.6, "Conversas_Iniciadas": 148, "Custo_por_Conversa": 4.43}, {"Mes": "2023-11", "Investimento": 610.95, "Impressoes": 48532, "Alcance": 28272, "Cliques": 821, "CTR": 1.69, "CPM": 12.59, "CPC": 0.74, "Conversas_Iniciadas": 115, "Custo_por_Conversa": 5.31}, {"Mes": "2023-12", "Investimento": 863.91, "Impressoes": 80721, "Alcance": 45228, "Cliques": 1154, "CTR": 1.43, "CPM": 10.7, "CPC": 0.75, "Conversas_Iniciadas": 174, "Custo_por_Conversa": 4.96}, {"Mes": "2024-01", "Investimento": 932.08, "Impressoes": 103849, "Alcance": 57911, "Cliques": 1357, "CTR": 1.31, "CPM": 8.98, "CPC": 0.69, "Conversas_Iniciadas": 170, "Custo_por_Conversa": 5.48}, {"Mes": "2024-02", "Investimento": 917.38, "Impressoes": 99614, "Alcance": 62330, "Cliques": 1570, "CTR": 1.58, "CPM": 9.21, "CPC": 0.58, "Conversas_Iniciadas": 202, "Custo_por_Conversa": 4.54}, {"Mes": "2024-03", "Investimento": 1241.19, "Impressoes": 124579, "Alcance": 72078, "Cliques": 1837, "CTR": 1.47, "CPM": 9.96, "CPC": 0.68, "Conversas_Iniciadas": 221, "Custo_por_Conversa": 5.62}, {"Mes": "2024-04", "Investimento": 1628.09, "Impressoes": 131290, "Alcance": 69015, "Cliques": 1501, "CTR": 1.14, "CPM": 12.4, "CPC": 1.08, "Conversas_Iniciadas": 212, "Custo_por_Conversa": 7.68}, {"Mes": "2024-05", "Investimento": 2053.13, "Impressoes": 209962, "Alcance": 119598, "Cliques": 3612, "CTR": 1.72, "CPM": 9.78, "CPC": 0.57, "Conversas_Iniciadas": 369, "Custo_por_Conversa": 5.56}, {"Mes": "2024-06", "Investimento": 2132.46, "Impressoes": 248668, "Alcance": 155805, "Cliques": 3923, "CTR": 1.58, "CPM": 8.58, "CPC": 0.54, "Conversas_Iniciadas": 180, "Custo_por_Conversa": 11.85}, {"Mes": "2024-07", "Investimento": 2068.58, "Impressoes": 283205, "Alcance": 164702, "Cliques": 4582, "CTR": 1.62, "CPM": 7.3, "CPC": 0.45, "Conversas_Iniciadas": 162, "Custo_por_Conversa": 12.77}, {"Mes": "2024-08", "Investimento": 2065.15, "Impressoes": 477648, "Alcance": 265081, "Cliques": 3020, "CTR": 0.63, "CPM": 4.32, "CPC": 0.68, "Conversas_Iniciadas": 173, "Custo_por_Conversa": 11.94}, {"Mes": "2024-09", "Investimento": 2553.23, "Impressoes": 542593, "Alcance": 329982, "Cliques": 2783, "CTR": 0.51, "CPM": 4.71, "CPC": 0.92, "Conversas_Iniciadas": 253, "Custo_por_Conversa": 10.09}, {"Mes": "2024-10", "Investimento": 2437.97, "Impressoes": 436664, "Alcance": 301026, "Cliques": 6375, "CTR": 1.46, "CPM": 5.58, "CPC": 0.38, "Conversas_Iniciadas": 227, "Custo_por_Conversa": 10.74}, {"Mes": "2024-11", "Investimento": 975.14, "Impressoes": 97755, "Alcance": 39070, "Cliques": 2335, "CTR": 2.39, "CPM": 9.98, "CPC": 0.42, "Conversas_Iniciadas": 4, "Custo_por_Conversa": 243.78}, {"Mes": "2024-12", "Investimento": 1671.2, "Impressoes": 153531, "Alcance": 44238, "Cliques": 2239, "CTR": 1.46, "CPM": 10.89, "CPC": 0.75, "Conversas_Iniciadas": 45, "Custo_por_Conversa": 37.14}, {"Mes": "2025-01", "Investimento": 2513.76, "Impressoes": 336943, "Alcance": 119577, "Cliques": 3673, "CTR": 1.09, "CPM": 7.46, "CPC": 0.68, "Conversas_Iniciadas": 55, "Custo_por_Conversa": 45.7}, {"Mes": "2025-02", "Investimento": 2638.64, "Impressoes": 386689, "Alcance": 139108, "Cliques": 6291, "CTR": 1.63, "CPM": 6.82, "CPC": 0.42, "Conversas_Iniciadas": 45, "Custo_por_Conversa": 58.64}, {"Mes": "2025-03", "Investimento": 2644.33, "Impressoes": 408684, "Alcance": 173904, "Cliques": 6987, "CTR": 1.71, "CPM": 6.47, "CPC": 0.38, "Conversas_Iniciadas": 23, "Custo_por_Conversa": 114.97}, {"Mes": "2025-04", "Investimento": 1775.65, "Impressoes": 267979, "Alcance": 113547, "Cliques": 4995, "CTR": 1.86, "CPM": 6.63, "CPC": 0.36, "Conversas_Iniciadas": 22, "Custo_por_Conversa": 80.71}, {"Mes": "2025-05", "Investimento": 2065.73, "Impressoes": 387734, "Alcance": 156588, "Cliques": 6000, "CTR": 1.55, "CPM": 5.33, "CPC": 0.34, "Conversas_Iniciadas": 11, "Custo_por_Conversa": 187.79}, {"Mes": "2025-06", "Investimento": 2116.56, "Impressoes": 376764, "Alcance": 149374, "Cliques": 5640, "CTR": 1.5, "CPM": 5.62, "CPC": 0.38, "Conversas_Iniciadas": 24, "Custo_por_Conversa": 88.19}, {"Mes": "2025-07", "Investimento": 2267.14, "Impressoes": 427678, "Alcance": 161763, "Cliques": 9534, "CTR": 2.23, "CPM": 5.3, "CPC": 0.24, "Conversas_Iniciadas": 19, "Custo_por_Conversa": 119.32}, {"Mes": "2025-08", "Investimento": 1980.31, "Impressoes": 341792, "Alcance": 130612, "Cliques": 6708, "CTR": 1.96, "CPM": 5.79, "CPC": 0.3, "Conversas_Iniciadas": 34, "Custo_por_Conversa": 58.24}, {"Mes": "2025-09", "Investimento": 219.65, "Impressoes": 31962, "Alcance": 21606, "Cliques": 631, "CTR": 1.97, "CPM": 6.87, "CPC": 0.35, "Conversas_Iniciadas": 10, "Custo_por_Conversa": 21.96}, {"Mes": "2025-10", "Investimento": 587.25, "Impressoes": 50545, "Alcance": 29136, "Cliques": 1301, "CTR": 2.57, "CPM": 11.62, "CPC": 0.45, "Conversas_Iniciadas": 49, "Custo_por_Conversa": 11.98}, {"Mes": "2025-11", "Investimento": 420.52, "Impressoes": 112804, "Alcance": 98511, "Cliques": 1046, "CTR": 0.93, "CPM": 3.73, "CPC": 0.4, "Conversas_Iniciadas": 34, "Custo_por_Conversa": 12.37}, {"Mes": "2025-12", "Investimento": 1993.07, "Impressoes": 136203, "Alcance": 72053, "Cliques": 2938, "CTR": 2.16, "CPM": 14.63, "CPC": 0.68, "Conversas_Iniciadas": 186, "Custo_por_Conversa": 10.72}, {"Mes": "2026-01", "Investimento": 1550.69, "Impressoes": 164640, "Alcance": 81692, "Cliques": 3407, "CTR": 2.07, "CPM": 9.42, "CPC": 0.46, "Conversas_Iniciadas": 158, "Custo_por_Conversa": 9.81}, {"Mes": "2026-02", "Investimento": 3971.64, "Impressoes": 654656, "Alcance": 312012, "Cliques": 19373, "CTR": 2.96, "CPM": 6.07, "CPC": 0.21, "Conversas_Iniciadas": 132, "Custo_por_Conversa": 30.09}, {"Mes": "2026-03", "Investimento": 3341.09, "Impressoes": 331364, "Alcance": 188350, "Cliques": 7700, "CTR": 2.32, "CPM": 10.08, "CPC": 0.43, "Conversas_Iniciadas": 268, "Custo_por_Conversa": 12.47}, {"Mes": "2026-04", "Investimento": 2835.07, "Impressoes": 220908, "Alcance": 112861, "Cliques": 6742, "CTR": 3.05, "CPM": 12.83, "CPC": 0.42, "Conversas_Iniciadas": 254, "Custo_por_Conversa": 11.16}, {"Mes": "2026-05", "Investimento": 4007.49, "Impressoes": 227473, "Alcance": 110282, "Cliques": 7119, "CTR": 3.13, "CPM": 17.62, "CPC": 0.56, "Conversas_Iniciadas": 253, "Custo_por_Conversa": 15.84}, {"Mes": "2026-06", "Investimento": 3919.45, "Impressoes": 273361, "Alcance": 126405, "Cliques": 10895, "CTR": 3.99, "CPM": 14.34, "CPC": 0.36, "Conversas_Iniciadas": 180, "Custo_por_Conversa": 21.77}, {"Mes": "2026-07", "Investimento": 2958.83, "Impressoes": 316393, "Alcance": 159134, "Cliques": 12246, "CTR": 3.87, "CPM": 9.35, "CPC": 0.24, "Conversas_Iniciadas": 284, "Custo_por_Conversa": 10.42}, {"Mes": "2026-08", "Investimento": 1875.81, "Impressoes": 130286, "Alcance": 84851, "Cliques": 5274, "CTR": 4.05, "CPM": 14.4, "CPC": 0.36, "Conversas_Iniciadas": 203, "Custo_por_Conversa": 9.24}, {"Mes": "2026-09", "Investimento": 4241.82, "Impressoes": 289989, "Alcance": 157010, "Cliques": 11701, "CTR": 4.03, "CPM": 14.63, "CPC": 0.36, "Conversas_Iniciadas": 447, "Custo_por_Conversa": 9.49}, {"Mes": "2026-10", "Investimento": 38.36, "Impressoes": 2125, "Alcance": 1936, "Cliques": 64, "CTR": 3.01, "CPM": 18.05, "CPC": 0.6, "Conversas_Iniciadas": 5, "Custo_por_Conversa": 7.67}];
+
+// Cópia dos atendimentos do dia da geração deste arquivo. Serve de rede de segurança:
+// se o fetch da planilha for bloqueado (visualizador sem acesso à rede, offline), o painel
+// ainda abre com dados e avisa que está mostrando a cópia.
+const SNAPSHOT_CSV = ``;
+const SNAPSHOT_DATA = "01/10/2026";
+
+/* =========================================================================
+   2. LEITURA E LIMPEZA DO CSV
+   ========================================================================= */
+
+// Parser que respeita aspas (a base tem campos como "R$150,00").
+function parseCSV(texto){
+  const t = texto.replace(/\r\n/g,"\n").replace(/\r/g,"\n");
+  const cab = t.slice(0, t.indexOf("\n") < 0 ? t.length : t.indexOf("\n"));
+  // Detecta o separador contando ocorrências fora de aspas no cabeçalho.
+  const sep = (cab.split(";").length > cab.split(",").length) ? ";" : ",";
+  const linhas = []; let campo = "", linha = [], aspas = false;
+  for (let i=0;i<t.length;i++){
+    const c = t[i];
+    if (aspas){
+      if (c === '"'){ if (t[i+1] === '"'){ campo += '"'; i++; } else aspas = false; }
+      else campo += c;
+    } else if (c === '"'){ aspas = true; }
+    else if (c === sep){ linha.push(campo); campo=""; }
+    else if (c === "\n"){ linha.push(campo); linhas.push(linha); linha=[]; campo=""; }
+    else campo += c;
+  }
+  if (campo.length || linha.length){ linha.push(campo); linhas.push(linha); }
+  return linhas;
+}
+
+const semAcento = s => (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+const norm = s => semAcento(String(s||"")).toLowerCase().replace(/\s+/g," ").trim();
+const chaveCabecalho = s => norm(s).replace(/[^a-z0-9]/g,"");
+const titulo = s => String(s||"").trim().toLowerCase().replace(/(^|\s|\/)([a-zà-ú])/g, (m,a,b)=>a+b.toUpperCase());
+
+// "R$150,00" e "80" convivem na mesma coluna.
+function parseValor(v){
+  let s = String(v||"").replace(/[^0-9.,-]/g,"");
+  if (!s) return 0;
+  if (s.includes(",")) s = s.replace(/\./g,"").replace(",",".");
+  else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g,"");
+  const n = parseFloat(s);
+  return isFinite(n) ? n : 0;
+}
+
+// dd/mm/aaaa. A base tem anos digitados errado (0206, 265, 2028, 2924): descarta.
+const ANO_MAX = new Date().getFullYear() + 1;
+function parseData(v){
+  const m = /^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/.exec(String(v||"").trim());
+  if (!m) return null;
+  let [, d, mo, a] = m; d=+d; mo=+mo; a=+a;
+  if (a < 100) a += a > 50 ? 1900 : 2000;
+  if (a < 2022 || a > ANO_MAX || mo < 1 || mo > 12 || d < 1 || d > 31) return null;
+  const dt = new Date(a, mo-1, d);
+  return (dt.getMonth() === mo-1 && dt.getDate() === d) ? dt : null;
+}
+
+// Unifica grafias para não duplicar categoria nos agrupamentos.
+function normOrigem(v){
+  const n = norm(v);
+  if (!n) return "";
+  if (n.startsWith("anuncio insta") || n.startsWith("anuncio de insta")) return "Anúncio Instagram";
+  if (n.startsWith("anuncio goog")) return "Anúncio Google";
+  if (n.startsWith("indi")) return "Indicação";
+  if (n === "instagram") return "Instagram";
+  return titulo(v);
+}
+function normPagamento(v){
+  const n = norm(v);
+  if (!n) return "";
+  if (n.includes("credito")) return "Cartão de Crédito";
+  if (n.includes("debito")) return "Cartão de Débito";
+  if (n.includes("pix")) return "Pix";
+  if (n.includes("dinheiro")) return "Dinheiro";
+  return titulo(v);
+}
+function normSimNao(v){
+  const n = norm(v);
+  if (n === "sim") return "Sim";
+  if (n === "nao") return "Não";
+  return "";
+}
+
+const ORIGENS_ANUNCIO = ["Anúncio Instagram","Anúncio Google"];
+const chaveMes = d => d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0");
+const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const rotuloMes = k => MESES[+k.slice(5,7)-1] + "/" + k.slice(2,4);
+
+// Estado global
+let LINHAS = [], DESCARTADAS = 0, FONTE = "cópia", ATUALIZADO = null;
+let LTV = null;              // recalculado a cada carga da base (não depende dos filtros)
+let ROTULO_PROC = new Map(); // chave normalizada -> grafia exibida
+
+function processar(texto){
+  const linhas = parseCSV(texto);
+  if (!linhas.length) throw new Error("CSV vazio");
+  const cab = linhas[0].map(chaveCabecalho);
+  const idx = {
+    data: cab.indexOf("datadoatendimento"),
+    cliente: cab.indexOf("nomedocliente"),
+    profissional: cab.indexOf("profissional"),
+    origem: cab.indexOf("ondenosconheceu"),
+    procedimento: cab.indexOf("procedimento"),
+    valor: cab.indexOf("valorpago"),
+    pagamento: cab.indexOf("formadepagamento"),
+    primeira: cab.indexOf("primeiraveznostudio")
+  };
+  const faltando = Object.entries(idx).filter(([,v]) => v < 0).map(([k]) => k);
+  if (faltando.length) throw new Error("Colunas ausentes na planilha: " + faltando.join(", "));
+
+  // Grafia mais frequente de cada procedimento, para exibir um rótulo só.
+  const contagemGrafia = new Map();
+  const saida = []; let descartadas = 0;
+  for (let i=1;i<linhas.length;i++){
+    const r = linhas[i];
+    if (!r || r.every(c => !String(c).trim())) continue;
+    const dt = parseData(r[idx.data]);
+    if (!dt){ descartadas++; continue; }
+    const procBruto = String(r[idx.procedimento]||"").trim();
+    const procKey = norm(procBruto);
+    if (!procKey) { descartadas++; continue; }
+    if (!contagemGrafia.has(procKey)) contagemGrafia.set(procKey, new Map());
+    const m = contagemGrafia.get(procKey);
+    m.set(procBruto, (m.get(procBruto)||0) + 1);
+    const cliente = String(r[idx.cliente]||"").trim();
+    saida.push({
+      data: dt, mes: chaveMes(dt),
+      cliente: cliente || "(sem nome)",
+      clienteKey: norm(cliente),
+      profissional: titulo(r[idx.profissional]) || "Não informado",
+      origem: normOrigem(r[idx.origem]) || "Não informado",
+      procKey, valor: parseValor(r[idx.valor]),
+      pagamento: normPagamento(r[idx.pagamento]) || "Não informado",
+      primeira: normSimNao(r[idx.primeira])
+    });
+  }
+  ROTULO_PROC = new Map();
+  for (const [k, m] of contagemGrafia){
+    ROTULO_PROC.set(k, [...m.entries()].sort((a,b) => b[1]-a[1])[0][0]);
+  }
+  LINHAS = saida.sort((a,b) => a.data - b.data);
+  DESCARTADAS = descartadas;
+  LTV = calcularLTV();
+}
+
+/* =========================================================================
+   3. FILTROS
+   ========================================================================= */
+const el = id => document.getElementById(id);
+const F = { de:null, ate:null, prof:"", proc:"", orig:"", pgto:"", prim:"" };
+
+function opcoes(sel, valores, rotuloTodos){
+  const atual = sel.value;
+  sel.innerHTML = "";
+  const o0 = document.createElement("option"); o0.value=""; o0.textContent = rotuloTodos; sel.appendChild(o0);
+  for (const v of valores){
+    const o = document.createElement("option"); o.value = v.valor; o.textContent = v.rotulo; sel.appendChild(o);
+  }
+  if (valores.some(v => v.valor === atual)) sel.value = atual;
+}
+
+function montarFiltros(){
+  const uni = (fn) => [...new Set(LINHAS.map(fn).filter(Boolean))].sort((a,b) => a.localeCompare(b,"pt-BR"));
+  opcoes(el("f-prof"), uni(l => l.profissional).map(v => ({valor:v, rotulo:v})), "Todos");
+  const porProc = new Map();
+  for (const l of LINHAS) porProc.set(l.procKey, (porProc.get(l.procKey)||0) + l.valor);
+  const procs = [...porProc.entries()].sort((a,b) => b[1]-a[1])
+    .map(([k]) => ({valor:k, rotulo:ROTULO_PROC.get(k) || k}));
+  opcoes(el("f-proc"), procs, "Todos");
+  opcoes(el("f-orig"), uni(l => l.origem).map(v => ({valor:v, rotulo:v})), "Todas");
+  opcoes(el("f-pgto"), uni(l => l.pagamento).map(v => ({valor:v, rotulo:v})), "Todas");
+  opcoes(el("f-prim"), [{valor:"Sim",rotulo:"Só novas"},{valor:"Não",rotulo:"Só recorrentes"}], "Todas");
+  if (LINHAS.length){
+    const min = LINHAS[0].data, max = LINHAS[LINHAS.length-1].data;
+    const iso = d => d.toISOString().slice(0,10);
+    el("f-de").min = el("f-ate").min = iso(min);
+    el("f-de").max = el("f-ate").max = iso(max);
+    if (!el("f-de").value) el("f-de").value = iso(min);
+    if (!el("f-ate").value) el("f-ate").value = iso(max);
+  }
+}
+
+function lerFiltros(){
+  F.de = el("f-de").value ? new Date(el("f-de").value + "T00:00:00") : null;
+  F.ate = el("f-ate").value ? new Date(el("f-ate").value + "T23:59:59") : null;
+  F.prof = el("f-prof").value; F.proc = el("f-proc").value;
+  F.orig = el("f-orig").value; F.pgto = el("f-pgto").value; F.prim = el("f-prim").value;
+}
+
+function aplicar(){
+  return LINHAS.filter(l =>
+    (!F.de || l.data >= F.de) && (!F.ate || l.data <= F.ate) &&
+    (!F.prof || l.profissional === F.prof) && (!F.proc || l.procKey === F.proc) &&
+    (!F.orig || l.origem === F.orig) && (!F.pgto || l.pagamento === F.pgto) &&
+    (!F.prim || l.primeira === F.prim)
+  );
+}
+
+/* =========================================================================
+   4. FORMATAÇÃO
+   ========================================================================= */
+const fmtR$ = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
+const fmtR$0 = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0});
+const fmtN = new Intl.NumberFormat("pt-BR");
+const pct = (x, casas=1) => (isFinite(x) ? (x*100).toFixed(casas).replace(".",",") : "–") + "%";
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* =========================================================================
+   5. AGREGAÇÕES
+   ========================================================================= */
+function somaPor(linhas, chave, valor = l => l.valor){
+  const m = new Map();
+  for (const l of linhas){ const k = chave(l); if (k === "" || k == null) continue; m.set(k, (m.get(k)||0) + valor(l)); }
+  return [...m.entries()].sort((a,b) => b[1]-a[1]);
+}
+
+function serieMensal(linhas){
+  const m = new Map();
+  for (const l of linhas){
+    if (!m.has(l.mes)) m.set(l.mes, {fat:0, at:0, novos:0, recorrentes:0, fatAnuncio:0, novosAnuncio:0});
+    const o = m.get(l.mes);
+    o.fat += l.valor; o.at++;
+    if (l.primeira === "Sim") o.novos++; else if (l.primeira === "Não") o.recorrentes++;
+    if (ORIGENS_ANUNCIO.includes(l.origem)){
+      o.fatAnuncio += l.valor;
+      if (l.primeira === "Sim") o.novosAnuncio++;
+    }
+  }
+  return [...m.entries()].sort((a,b) => a[0].localeCompare(b[0]));
+}
+
+function metricas(linhas){
+  const fat = linhas.reduce((s,l) => s+l.valor, 0);
+  const clientes = new Map();
+  for (const l of linhas){
+    if (!l.clienteKey) continue;
+    if (!clientes.has(l.clienteKey)) clientes.set(l.clienteKey, {nome:l.cliente, n:0, total:0, ultimo:l.data});
+    const c = clientes.get(l.clienteKey);
+    c.n++; c.total += l.valor; if (l.data > c.ultimo) c.ultimo = l.data;
+  }
+  const comResposta = linhas.filter(l => l.primeira).length;
+  const novos = linhas.filter(l => l.primeira === "Sim").length;
+  const recorrentes = [...clientes.values()].filter(c => c.n >= 2).length;
+  return {
+    fat, atendimentos: linhas.length,
+    ticket: linhas.length ? fat/linhas.length : 0,
+    clientes, unicos: clientes.size,
+    novosPct: comResposta ? novos/comResposta : NaN,
+    retornoPct: clientes.size ? recorrentes/clientes.size : NaN,
+    novos, recorrentes
+  };
+}
+
+/* =========================================================================
+   5b. LTV — o que cada cliente acumula ao longo da vida
+   Sempre sobre a base inteira: cortar o histórico de uma cliente pelo filtro
+   de período daria um "LTV" truncado, que é o erro clássico dessa métrica.
+   ========================================================================= */
+const DIA = 86400000;
+const HORIZONTE_LTV = 24;    // meses da curva de valor acumulado
+const MIN_COORTE = 50;       // ano de entrada com menos clientes que isso não vira curva
+const FAIXAS_LTV = [
+  {rot:"até R$ 100",       min:0,    max:100},
+  {rot:"R$ 100 a 300",     min:100,  max:300},
+  {rot:"R$ 300 a 600",     min:300,  max:600},
+  {rot:"R$ 600 a 1.200",   min:600,  max:1200},
+  {rot:"mais de R$ 1.200", min:1200, max:Infinity}
+];
+// Meses completos entre duas datas (o dia do mês conta: 15/01 -> 14/02 ainda é 0).
+const mesesEntre = (a,b) => (b.getFullYear()-a.getFullYear())*12 + (b.getMonth()-a.getMonth()) - (b.getDate() < a.getDate() ? 1 : 0);
+
+function calcularLTV(){
+  const hoje = new Date();
+  const cli = new Map();
+  for (const l of LINHAS){            // LINHAS já vem ordenado por data
+    if (!l.clienteKey) continue;
+    let c = cli.get(l.clienteKey);
+    if (!c){
+      // a origem é a declarada na primeira visita — é ela que diz quem trouxe a cliente
+      c = {nome:l.cliente, n:0, total:0, primeira:l.data, ultima:l.data, origem:l.origem, hist:[]};
+      cli.set(l.clienteKey, c);
+    }
+    c.n++; c.total += l.valor;
+    if (l.data > c.ultima) c.ultima = l.data;
+    c.hist.push({m: mesesEntre(c.primeira, l.data), d: (l.data - c.primeira)/DIA, v: l.valor});
+  }
+  const todos = [...cli.values()];
+  if (!todos.length) return null;
+
+  const soma = todos.reduce((s,c) => s+c.total, 0);
+  const rec = todos.filter(c => c.n >= 2);
+  const medio = soma/todos.length;
+  const medioRec = rec.length ? rec.reduce((s,c) => s+c.total, 0)/rec.length : NaN;
+  const vidaRec = rec.length ? rec.reduce((s,c) => s + (c.ultima-c.primeira)/DIA, 0)/rec.length/30.44 : NaN;
+
+  // LTV de 12 meses: só clientes que já completaram um ano de casa, e só o que gastaram nesse ano
+  const maduros = todos.filter(c => (hoje - c.primeira)/DIA >= 365);
+  const ltv12 = maduros.length
+    ? maduros.reduce((s,c) => s + c.hist.reduce((t,h) => t + (h.d <= 365 ? h.v : 0), 0), 0)/maduros.length
+    : NaN;
+
+  // Curva de valor acumulado, separada por ano de entrada da cliente.
+  // Uma curva só, misturando todo mundo, seria puxada para baixo pelas coortes antigas —
+  // o ticket do studio subiu muito de 2022 para cá, então o valor de uma cliente nova
+  // não se parece com o de uma cliente de 2022. Cada ano vira uma linha.
+  const porAno = new Map();
+  for (const c of todos){
+    const a = c.primeira.getFullYear();
+    if (!porAno.has(a)) porAno.set(a, []);
+    porAno.get(a).push(c);
+  }
+  const coortes = [];
+  for (const [ano, grupo] of [...porAno.entries()].sort((x,y) => x[0]-y[0])){
+    if (grupo.length < MIN_COORTE) continue;
+    const pontos = [];
+    for (let m=0; m<=HORIZONTE_LTV; m++){
+      const base = grupo.filter(c => mesesEntre(c.primeira, hoje) >= m);
+      // média acumulada não pode cair: se a base encolhe muito, o que muda é a população,
+      // não o valor da cliente. Só desenha enquanto 80% da turma já tem esse tempo de casa.
+      if (base.length < grupo.length*0.8) break;
+      pontos.push({
+        m, base: base.length,
+        media: base.reduce((s,c) => s + c.hist.reduce((t,h) => t + (h.m <= m ? h.v : 0), 0), 0)/base.length
+      });
+    }
+    if (pontos.length) coortes.push({ano, n: grupo.length, pontos, total: grupo.reduce((s,c) => s+c.total, 0)/grupo.length});
+  }
+
+  const faixas = FAIXAS_LTV.map(f => {
+    const dentro = todos.filter(c => c.total >= f.min && c.total < f.max);
+    return {rot:f.rot, n:dentro.length, fat:dentro.reduce((s,c) => s+c.total, 0)};
+  });
+
+  // --- retorno do anúncio pela vida inteira da cliente, não pelo mês da aquisição ---
+  // Só clientes conquistadas depois que o Meta Ads começou: antes disso não houve investimento.
+  const invTotal = TRAFEGO.reduce((s,t) => s + t.Investimento, 0);
+  const mesIni = TRAFEGO.length ? TRAFEGO.map(t => t.Mes).sort()[0] : null;
+  const iniAds = mesIni ? new Date(mesIni + "-01T00:00:00") : null;
+  const deAnuncio = iniAds ? todos.filter(c => ORIGENS_ANUNCIO.includes(c.origem) && c.primeira >= iniAds) : [];
+  const fatAnuncio = deAnuncio.reduce((s,c) => s+c.total, 0);
+
+  return {
+    clientes: todos.length, soma, medio, medioRec, recorrentes: rec.length, vidaRec,
+    ltv12, maduros: maduros.length, coortes, faixas,
+    inicio: todos.reduce((d,c) => c.primeira < d ? c.primeira : d, todos[0].primeira),
+    anuncio: {
+      mesIni, n: deAnuncio.length, fat: fatAnuncio, investimento: invTotal,
+      ltv: deAnuncio.length ? fatAnuncio/deAnuncio.length : NaN,
+      cac: deAnuncio.length ? invTotal/deAnuncio.length : NaN,
+      roas: invTotal ? fatAnuncio/invTotal : NaN
+    }
+  };
+}
+
+/* =========================================================================
+   6. GRÁFICOS (Chart.js) — tema lido dos tokens CSS a cada render
+   ========================================================================= */
+const graficos = {};
+function baseOpts(){
+  const ink2 = cssVar("--ink-2"), linha = cssVar("--line"), surf = cssVar("--surface"), ink = cssVar("--ink");
+  return {
+    responsive:true, maintainAspectRatio:false,
+    interaction:{ mode:"index", intersect:false },
+    plugins:{
+      legend:{ display:false },
+      tooltip:{
+        backgroundColor:surf, titleColor:ink, bodyColor:ink2,
+        borderColor:cssVar("--line-strong"), borderWidth:1, padding:10,
+        titleFont:{family:"Karla",weight:"700"}, bodyFont:{family:"Karla"},
+        displayColors:true, boxWidth:9, boxHeight:9, usePointStyle:true
+      }
+    },
+    scales:{
+      x:{ grid:{display:false}, border:{color:linha}, ticks:{color:ink2, font:{family:"Karla",size:11}} },
+      y:{ grid:{color:linha}, border:{display:false}, ticks:{color:ink2, font:{family:"Karla",size:11}} }
+    }
+  };
+}
+function destruir(){ for (const k in graficos){ graficos[k].destroy(); delete graficos[k]; } }
+
+function gradiente(ctx, cor){
+  const g = ctx.createLinearGradient(0,0,0,300);
+  g.addColorStop(0, cor + "38"); g.addColorStop(1, cor + "00");
+  return g;
+}
+
+function desenharGraficos(dados, serie, trafegoMes){
+  destruir();
+  const s1 = cssVar("--s1"), s2 = cssVar("--s2"), s3 = cssVar("--s3"), s4 = cssVar("--s4");
+  const surf = cssVar("--surface");
+  const opt = baseOpts();
+
+  // 6.1 Faturamento por mês — série única, área suave e ponto final destacado
+  const labelsMes = serie.map(([k]) => rotuloMes(k));
+  const valoresMes = serie.map(([,v]) => v.fat);
+  const cvFat = el("ch-fat").getContext("2d");
+  graficos.fat = new Chart(cvFat, {
+    type:"line",
+    data:{ labels:labelsMes, datasets:[{
+      data:valoresMes, borderColor:s1, borderWidth:2,
+      backgroundColor:gradiente(cvFat, s1), fill:true, tension:.32,
+      pointRadius:(c) => c.dataIndex === valoresMes.length-1 ? 4.5 : 0,
+      pointBackgroundColor:s1, pointBorderColor:surf, pointBorderWidth:2,
+      pointHoverRadius:5
+    }]},
+    options:{...opt, plugins:{...opt.plugins, tooltip:{...opt.plugins.tooltip,
+      callbacks:{ label: c => "Faturamento: " + fmtR$.format(c.parsed.y) }}},
+      scales:{...opt.scales, y:{...opt.scales.y, ticks:{...opt.scales.y.ticks,
+        callback: v => fmtR$0.format(v)}}}}
+  });
+
+  // 6.2 Novos x recorrentes — duas séries, cores validadas, legenda visível
+  graficos.ret = new Chart(el("ch-ret"), {
+    type:"bar",
+    data:{ labels:labelsMes, datasets:[
+      { label:"Novas clientes", data:serie.map(([,v]) => v.novos), backgroundColor:s1, borderRadius:4, borderSkipped:false },
+      { label:"Recorrentes", data:serie.map(([,v]) => v.recorrentes), backgroundColor:s2, borderRadius:4, borderSkipped:false }
+    ]},
+    options:{...opt, plugins:{...opt.plugins,
+      legend:{display:true, position:"top", align:"end", labels:{color:cssVar("--ink-2"), boxWidth:9, boxHeight:9, usePointStyle:true, font:{family:"Karla",size:12}}}},
+      scales:{...opt.scales, x:{...opt.scales.x, stacked:false}}}
+  });
+
+  // 6.3 Top 10 procedimentos por faturamento
+  const topProc = somaPor(dados, l => l.procKey).slice(0,10);
+  graficos.proc = new Chart(el("ch-proc"), {
+    type:"bar",
+    data:{ labels:topProc.map(([k]) => ROTULO_PROC.get(k) || k),
+      datasets:[{ data:topProc.map(([,v]) => v), backgroundColor:s1, borderRadius:4, borderSkipped:false, barThickness:16 }]},
+    options:{...opt, indexAxis:"y",
+      plugins:{...opt.plugins, tooltip:{...opt.plugins.tooltip, callbacks:{ label: c => fmtR$.format(c.parsed.x) }}},
+      scales:{ x:{ grid:{color:cssVar("--line")}, border:{display:false},
+          ticks:{color:cssVar("--ink-2"), font:{family:"Karla",size:11}, callback:v => fmtR$0.format(v)} },
+        y:{ grid:{display:false}, border:{color:cssVar("--line")},
+          ticks:{color:cssVar("--ink-2"), font:{family:"Karla",size:11}, autoSkip:false} } }}
+  });
+
+  // 6.4 Faturamento por profissional
+  const porProf = somaPor(dados, l => l.profissional);
+  graficos.prof = new Chart(el("ch-prof"), {
+    type:"bar",
+    data:{ labels:porProf.map(([k]) => k),
+      datasets:[{ data:porProf.map(([,v]) => v), backgroundColor:s2, borderRadius:4, borderSkipped:false, barThickness:18 }]},
+    options:{...opt, indexAxis:"y",
+      plugins:{...opt.plugins, tooltip:{...opt.plugins.tooltip, callbacks:{ label: c => fmtR$.format(c.parsed.x) }}},
+      scales:{ x:{ grid:{color:cssVar("--line")}, border:{display:false},
+          ticks:{color:cssVar("--ink-2"), font:{family:"Karla",size:11}, callback:v => fmtR$0.format(v)} },
+        y:{ grid:{display:false}, border:{color:cssVar("--line")},
+          ticks:{color:cssVar("--ink-2"), font:{family:"Karla",size:11}} } }}
+  });
+
+  // 6.5 e 6.6 Roscas com rótulo direto na legenda (valor + %)
+  const cores = [s1, s2, s3, s4, cssVar("--ink-3")];
+  function rosca(canvasId, legendaId, pares, formatar){
+    const total = pares.reduce((s,[,v]) => s+v, 0);
+    graficos[canvasId] = new Chart(el(canvasId), {
+      type:"doughnut",
+      data:{ labels:pares.map(([k]) => k),
+        datasets:[{ data:pares.map(([,v]) => v), backgroundColor:pares.map((_,i) => cores[i % cores.length]),
+          borderColor:surf, borderWidth:2, hoverOffset:6 }]},
+      options:{ responsive:true, maintainAspectRatio:false, cutout:"62%",
+        plugins:{ legend:{display:false}, tooltip:{...baseOpts().plugins.tooltip,
+          callbacks:{ label: c => c.label + ": " + formatar(c.parsed) + " (" + pct(c.parsed/total) + ")" }}}}
+    });
+    el(legendaId).innerHTML = pares.map(([k,v],i) =>
+      `<li><span class="swatch" style="background:${cores[i % cores.length]}"></span>
+       <span class="nm">${k}</span><span class="vl">${formatar(v)}</span>
+       <span class="pc">${pct(v/total,0)}</span></li>`).join("");
+  }
+  rosca("ch-orig","lg-orig", somaPor(dados, l => l.origem, () => 1), v => fmtN.format(v));
+  rosca("ch-pgto","lg-pgto", somaPor(dados, l => l.pagamento), v => fmtR$0.format(v));
+
+  // 6.7 Tráfego: investimento x faturamento de anúncio — mesma unidade, um eixo só
+  graficos.traf = new Chart(el("ch-traf"), {
+    type:"bar",
+    data:{ labels:trafegoMes.map(t => rotuloMes(t.mes)), datasets:[
+      { label:"Investimento em anúncios", data:trafegoMes.map(t => t.investimento), backgroundColor:s2, borderRadius:4, borderSkipped:false },
+      { label:"Faturamento vindo de anúncio", data:trafegoMes.map(t => t.fatAnuncio), backgroundColor:s1, borderRadius:4, borderSkipped:false }
+    ]},
+    options:{...opt,
+      plugins:{...opt.plugins,
+        legend:{display:true, position:"top", align:"end", labels:{color:cssVar("--ink-2"), boxWidth:9, boxHeight:9, usePointStyle:true, font:{family:"Karla",size:12}}},
+        tooltip:{...opt.plugins.tooltip, callbacks:{ label: c => c.dataset.label + ": " + fmtR$.format(c.parsed.y) }}},
+      scales:{...opt.scales, y:{...opt.scales.y, ticks:{...opt.scales.y.ticks, callback:v => fmtR$0.format(v)}}}}
+  });
+
+  // 6.8 e 6.9 LTV — desenhados aqui porque destruir() acabou de limpar o registro
+  desenharGraficosLTV();
+}
+
+function desenharGraficosLTV(){
+  if (!LTV) return;
+  const s1 = cssVar("--s1"), surf = cssVar("--surface");
+  const opt = baseOpts();
+
+  // 6.8 Valor acumulado por tempo de casa, uma linha por ano de entrada
+  const coresCoorte = [cssVar("--ink-3"), cssVar("--s2"), cssVar("--s3"), cssVar("--s4"), cssVar("--s1")];
+  const maxM = Math.max(...LTV.coortes.map(c => c.pontos.length)) - 1;
+  const rotuloM = m => m === 0 ? "1ª visita" : m + (m === 1 ? " mês" : " meses");
+  graficos.ltv = new Chart(el("ch-ltv"), {
+    type:"line",
+    data:{ labels: Array.from({length:maxM+1}, (_,m) => rotuloM(m)),
+      datasets: LTV.coortes.map((co,i) => {
+        const cor = coresCoorte[(coresCoorte.length - LTV.coortes.length + i + coresCoorte.length) % coresCoorte.length];
+        return {
+          label: "Entraram em " + co.ano,
+          data: Array.from({length:maxM+1}, (_,m) => co.pontos[m] ? co.pontos[m].media : null),
+          borderColor: cor, backgroundColor: cor, borderWidth:2, tension:.28, spanGaps:false,
+          pointRadius:0, pointHoverRadius:4, pointBackgroundColor:cor, pointBorderColor:surf, pointBorderWidth:2
+        };
+      })},
+    options:{...opt,
+      plugins:{...opt.plugins,
+        legend:{display:true, position:"top", align:"end", labels:{color:cssVar("--ink-2"), boxWidth:9, boxHeight:9, usePointStyle:true, font:{family:"Karla",size:12}}},
+        tooltip:{...opt.plugins.tooltip, callbacks:{
+          label: c => c.dataset.label + ": " + fmtR$.format(c.parsed.y) + " · " + fmtN.format(LTV.coortes[c.datasetIndex].pontos[c.dataIndex].base) + " clientes" }}},
+      scales:{...opt.scales, y:{...opt.scales.y, ticks:{...opt.scales.y.ticks, callback: v => fmtR$0.format(v)}}}}
+  });
+
+  // 6.9 Distribuição das clientes por faixa de gasto acumulado
+  const totalFat = LTV.faixas.reduce((s,f) => s+f.fat, 0) || 1;
+  graficos.ltvFaixa = new Chart(el("ch-ltv-faixa"), {
+    type:"bar",
+    data:{ labels: LTV.faixas.map(f => f.rot),
+      datasets:[{ data: LTV.faixas.map(f => f.n), backgroundColor:s1, borderRadius:4, borderSkipped:false }]},
+    options:{...opt, plugins:{...opt.plugins, tooltip:{...opt.plugins.tooltip, callbacks:{
+        label: c => [fmtN.format(c.parsed.y) + " clientes",
+                     fmtR$0.format(LTV.faixas[c.dataIndex].fat) + " · " + pct(LTV.faixas[c.dataIndex].fat/totalFat) + " do faturamento"] }}},
+      scales:{...opt.scales, y:{...opt.scales.y, ticks:{...opt.scales.y.ticks, callback: v => fmtN.format(v)}}}}
+  });
+}
+
+/* =========================================================================
+   7. TABELAS
+   ========================================================================= */
+let ordemProc = {col:"fat", dir:-1};
+
+function tabelaProcedimentos(dados){
+  const m = new Map();
+  for (const l of dados){
+    if (!m.has(l.procKey)) m.set(l.procKey, {nome:ROTULO_PROC.get(l.procKey) || l.procKey, n:0, fat:0});
+    const o = m.get(l.procKey); o.n++; o.fat += l.valor;
+  }
+  const total = dados.reduce((s,l) => s+l.valor, 0);
+  let linhas = [...m.values()].map(o => ({...o, ticket:o.n ? o.fat/o.n : 0, part: total ? o.fat/total : 0}));
+  const c = ordemProc.col, d = ordemProc.dir;
+  linhas.sort((a,b) => (c === "nome" ? a.nome.localeCompare(b.nome,"pt-BR") : a[c]-b[c]) * d);
+  const mostradas = linhas.slice(0,20);
+  const maxFat = Math.max(...mostradas.map(l => l.fat), 1);
+  const seta = k => ordemProc.col === k ? (ordemProc.dir === -1 ? " ▼" : " ▲") : "";
+  el("tb-proc").innerHTML =
+    `<thead><tr>
+      <th class="sortable" data-col="nome">Procedimento<span class="arrow">${seta("nome")}</span></th>
+      <th class="sortable num" data-col="n">Atendimentos<span class="arrow">${seta("n")}</span></th>
+      <th class="sortable num" data-col="fat">Faturamento<span class="arrow">${seta("fat")}</span></th>
+      <th class="sortable num" data-col="ticket">Ticket médio<span class="arrow">${seta("ticket")}</span></th>
+      <th class="sortable num" data-col="part">Participação<span class="arrow">${seta("part")}</span></th>
+    </tr></thead><tbody>` +
+    mostradas.map(l => `<tr>
+      <td>${l.nome}</td>
+      <td class="num">${fmtN.format(l.n)}</td>
+      <td class="num bar-cell"><span class="fill" style="width:${(l.fat/maxFat*100).toFixed(1)}%"></span><span>${fmtR$.format(l.fat)}</span></td>
+      <td class="num">${fmtR$.format(l.ticket)}</td>
+      <td class="num">${pct(l.part)}</td></tr>`).join("") + "</tbody>";
+  el("nota-proc").textContent = `${fmtN.format(linhas.length)} procedimentos distintos no período · exibindo 20`;
+  el("tb-proc").querySelectorAll("th.sortable").forEach(th => th.addEventListener("click", () => {
+    const col = th.dataset.col;
+    ordemProc = {col, dir: ordemProc.col === col ? -ordemProc.dir : (col === "nome" ? 1 : -1)};
+    tabelaProcedimentos(dados);
+  }));
+}
+
+function tabelaClientes(met){
+  const top = [...met.clientes.values()].sort((a,b) => b.total-a.total).slice(0,10);
+  el("tb-cli").innerHTML =
+    `<thead><tr><th>Cliente</th><th class="num">Atendimentos</th><th class="num">Total gasto</th><th class="num">Ticket médio</th><th class="num">Último atendimento</th></tr></thead><tbody>` +
+    top.map(c => `<tr>
+      <td>${c.nome}</td>
+      <td class="num">${fmtN.format(c.n)}</td>
+      <td class="num">${fmtR$.format(c.total)}</td>
+      <td class="num">${fmtR$.format(c.total/c.n)}</td>
+      <td class="num">${c.ultimo.toLocaleDateString("pt-BR")}</td></tr>`).join("") + "</tbody>";
+}
+
+function tabelaTrafego(trafegoMes){
+  if (!trafegoMes.length){ el("tb-traf").innerHTML = "<tbody><tr><td>Sem meses de tráfego dentro do período filtrado.</td></tr></tbody>"; return; }
+  const linhas = [...trafegoMes].reverse();
+  el("tb-traf").innerHTML =
+    `<thead><tr><th>Mês</th><th class="num">Investimento</th><th class="num">Impressões</th><th class="num">Cliques</th><th class="num">CTR</th>
+      <th class="num">Conversas</th><th class="num">Custo/conversa</th><th class="num">Faturamento anúncio</th><th class="num">ROAS</th></tr></thead><tbody>` +
+    linhas.map(t => `<tr>
+      <td>${rotuloMes(t.mes)}</td>
+      <td class="num">${fmtR$.format(t.investimento)}</td>
+      <td class="num">${fmtN.format(t.impressoes)}</td>
+      <td class="num">${fmtN.format(t.cliques)}</td>
+      <td class="num">${t.ctr.toFixed(2).replace(".",",")}%</td>
+      <td class="num">${fmtN.format(t.conversas)}</td>
+      <td class="num">${t.conversas ? fmtR$.format(t.investimento/t.conversas) : "–"}</td>
+      <td class="num">${fmtR$.format(t.fatAnuncio)}</td>
+      <td class="num">${t.investimento ? (t.fatAnuncio/t.investimento).toFixed(2).replace(".",",") + "×" : "–"}</td>
+    </tr>`).join("") + "</tbody>";
+}
+
+/* =========================================================================
+   8. KPIs E LEITURA EXECUTIVA
+   ========================================================================= */
+function tile(label, valor, sub){
+  return `<div class="kpi"><div class="k-label">${label}</div><div class="k-value">${valor}</div><div class="k-sub">${sub||""}</div></div>`;
+}
+
+function render(){
+  lerFiltros();
+  const dados = aplicar();
+  const met = metricas(dados);
+  const serie = serieMensal(dados);
+
+  el("kpis").innerHTML =
+    tile("Faturamento", fmtR$0.format(met.fat), `${fmtN.format(serie.length)} meses no período`) +
+    tile("Atendimentos", fmtN.format(met.atendimentos), DESCARTADAS ? `${fmtN.format(DESCARTADAS)} linhas com data inválida fora` : "todas as linhas válidas") +
+    tile("Ticket médio", fmtR$.format(met.ticket), "por procedimento realizado") +
+    tile("Clientes únicas", fmtN.format(met.unicos), "nomes distintos") +
+    tile("Novas clientes", pct(met.novosPct), "das respostas “primeira vez”") +
+    tile("Taxa de retorno", pct(met.retornoPct), "clientes com 2+ atendimentos") +
+    tile("LTV médio", LTV ? fmtR$.format(LTV.medio) : "–", "gasto acumulado por cliente · base inteira");
+
+  // --- tráfego: só os meses em que as duas fontes existem ---
+  const porMes = new Map(serie);
+  const trafegoMes = TRAFEGO
+    .filter(t => {
+      const ini = new Date(t.Mes + "-01T00:00:00");
+      const fim = new Date(ini.getFullYear(), ini.getMonth()+1, 0, 23, 59, 59);
+      return (!F.de || fim >= F.de) && (!F.ate || ini <= F.ate);
+    })
+    .map(t => ({
+      mes: t.Mes, investimento: t.Investimento, impressoes: t.Impressoes, cliques: t.Cliques,
+      ctr: t.CTR, conversas: t.Conversas_Iniciadas,
+      fatAnuncio: (porMes.get(t.Mes)?.fatAnuncio) || 0,
+      novosAnuncio: (porMes.get(t.Mes)?.novosAnuncio) || 0
+    }));
+  const inv = trafegoMes.reduce((s,t) => s+t.investimento, 0);
+  const conv = trafegoMes.reduce((s,t) => s+t.conversas, 0);
+  const fatAd = trafegoMes.reduce((s,t) => s+t.fatAnuncio, 0);
+  const novosAd = trafegoMes.reduce((s,t) => s+t.novosAnuncio, 0);
+  const fatTotalNosMeses = trafegoMes.reduce((s,t) => s + ((porMes.get(t.mes)?.fat) || 0), 0);
+
+  el("kpis-trafego").innerHTML =
+    tile("Investimento", fmtR$0.format(inv), trafegoMes.length ? `${rotuloMes(trafegoMes[0].mes)} a ${rotuloMes(trafegoMes[trafegoMes.length-1].mes)}` : "sem meses no período") +
+    tile("Conversas iniciadas", fmtN.format(conv), "no WhatsApp, via anúncio") +
+    tile("Custo por conversa", conv ? fmtR$.format(inv/conv) : "–", "por conversa iniciada") +
+    tile("Faturamento de anúncio", fmtR$0.format(fatAd), "clientes que vieram de anúncio") +
+    tile("ROAS de anúncio", inv ? (fatAd/inv).toFixed(2).replace(".",",") + "×" : "–", inv ? `referência sobre o total: ${(fatTotalNosMeses/inv).toFixed(1).replace(".",",")}×` : "") +
+    tile("CAC", novosAd ? fmtR$.format(inv/novosAd) : "–", `${fmtN.format(novosAd)} novas clientes de anúncio`);
+
+  // --- LTV: sempre a base inteira, por isso não usa `dados` nem `met` ---
+  if (LTV){
+    const a = LTV.anuncio;
+    el("kpis-ltv").innerHTML =
+      tile("LTV médio", fmtR$.format(LTV.medio), `${fmtN.format(LTV.clientes)} clientes desde ${LTV.inicio.toLocaleDateString("pt-BR")}`) +
+      tile("LTV de quem volta", fmtR$.format(LTV.medioRec), `média das ${fmtN.format(LTV.recorrentes)} clientes com 2+ atendimentos`) +
+      tile("LTV em 12 meses", isFinite(LTV.ltv12) ? fmtR$.format(LTV.ltv12) : "–", `primeiro ano das ${fmtN.format(LTV.maduros)} clientes com um ano de casa`) +
+      tile("Vida média", isFinite(LTV.vidaRec) ? LTV.vidaRec.toFixed(1).replace(".",",") + " meses" : "–", "entre a 1ª e a última visita de quem volta") +
+      tile("LTV de anúncio", isFinite(a.ltv) ? fmtR$.format(a.ltv) : "–", a.n ? `${fmtN.format(a.n)} clientes conquistadas desde ${rotuloMes(a.mesIni)}` : "sem clientes de anúncio na base") +
+      tile("ROAS de LTV", isFinite(a.roas) ? a.roas.toFixed(2).replace(".",",") + "×" : "–", isFinite(a.cac) ? `por real investido, ao longo da vida · CAC ${fmtR$.format(a.cac)}` : "");
+    el("hint-ltv").textContent = `Base inteira, sem os filtros acima — o histórico de cada cliente não é cortado por período`;
+  }
+
+  el("hint-trafego").textContent = trafegoMes.length
+    ? `Meta Ads tem histórico a partir de set/2023 — os cruzamentos usam só os meses com as duas fontes`
+    : "Nenhum mês com dados da Meta dentro do período filtrado";
+  el("hint-periodo").textContent = dados.length
+    ? `${dados[0].data.toLocaleDateString("pt-BR")} a ${dados[dados.length-1].data.toLocaleDateString("pt-BR")}`
+    : "sem linhas no filtro";
+
+  desenharGraficos(dados, serie, trafegoMes);
+  tabelaProcedimentos(dados);
+  tabelaClientes(met);
+  tabelaTrafego(trafegoMes);
+  insights(dados, met, serie, {inv, conv, fatAd, novosAd, trafegoMes});
+}
+
+function insights(dados, met, serie, tr){
+  const topProc = somaPor(dados, l => l.procKey)[0];
+  const topProf = somaPor(dados, l => l.profissional)[0];
+  const topOrig = somaPor(dados, l => l.origem, () => 1)[0];
+  const topPgto = somaPor(dados, l => l.pagamento)[0];
+  const nAt = dados.length || 1;
+
+  // Último mês fechado x anterior (o mês corrente fica de fora por estar incompleto)
+  const hojeMes = chaveMes(new Date());
+  const fechados = serie.filter(([k]) => k !== hojeMes);
+  let variacao = null;
+  if (fechados.length >= 2){
+    const [kA, a] = fechados[fechados.length-2], [kB, b] = fechados[fechados.length-1];
+    variacao = {de:kA, para:kB, valor: a.fat ? (b.fat-a.fat)/a.fat : NaN, fatB:b.fat};
+  }
+
+  const itens = [];
+  if (topProc) itens.push(["01", `<b>${ROTULO_PROC.get(topProc[0]) || topProc[0]}</b> lidera o faturamento, com ${fmtR$0.format(topProc[1])} — ${pct(topProc[1]/(met.fat||1))} de tudo que entrou no período.`]);
+  if (topProf) itens.push(["02", `<b>${topProf[0]}</b> responde por ${fmtR$0.format(topProf[1])}, ${pct(topProf[1]/(met.fat||1))} do faturamento.`]);
+  if (topOrig) itens.push(["03", `A origem mais comum é <b>${topOrig[0]}</b>: ${pct(topOrig[1]/nAt)} dos atendimentos.`]);
+  if (topPgto) itens.push(["04", `<b>${topPgto[0]}</b> é o meio de pagamento predominante, com ${pct(topPgto[1]/(met.fat||1))} do valor recebido.`]);
+  if (variacao) itens.push(["05", `Último mês fechado (<b>${rotuloMes(variacao.para)}</b>): ${fmtR$0.format(variacao.fatB)}, ${isFinite(variacao.valor) ? (variacao.valor >= 0 ? "alta" : "queda") + " de <b>" + pct(Math.abs(variacao.valor)) + "</b>" : "sem base de comparação"} contra ${rotuloMes(variacao.de)}.`]);
+  itens.push(["06", `<b>${pct(met.retornoPct)}</b> das clientes voltaram ao menos uma vez — são ${fmtN.format(met.recorrentes ?? 0)} clientes recorrentes.`]);
+  if (tr.inv) itens.push(["07", `Cada conversa aberta por anúncio custou <b>${tr.conv ? fmtR$.format(tr.inv/tr.conv) : "–"}</b>; cada nova cliente vinda de anúncio custou <b>${tr.novosAd ? fmtR$.format(tr.inv/tr.novosAd) : "–"}</b>.`]);
+  if (tr.inv) itens.push(["08", `O faturamento declarado como vindo de anúncio devolveu <b>${(tr.fatAd/tr.inv).toFixed(2).replace(".",",")}×</b> o investido nos meses comparáveis.`]);
+
+  if (LTV){
+    const a = LTV.anuncio;
+    itens.push(["09", `Cada cliente deixa <b>${fmtR$.format(LTV.medio)}</b> ao longo da vida; quem volta ao menos uma vez deixa <b>${fmtR$.format(LTV.medioRec)}</b> — ${isFinite(LTV.medioRec/LTV.medio) ? (LTV.medioRec/LTV.medio).toFixed(1).replace(".",",") + "×" : "–"} mais.`]);
+    const co = LTV.coortes;
+    if (co.length >= 2){
+      const velha = co[0], nova = co[co.length-1];
+      itens.push(["10", `Cliente nova vale mais que cliente antiga: quem chegou em <b>${nova.ano}</b> já acumula ${fmtR$.format(nova.total)}, contra ${fmtR$.format(velha.total)} de quem chegou em ${velha.ano} — o ticket subiu, não só o volume.`]);
+    }
+    if (isFinite(a.roas)) itens.push(["11", `Contando a vida inteira das clientes vindas de anúncio, cada real investido devolveu <b>${a.roas.toFixed(2).replace(".",",")}×</b> — custou ${fmtR$.format(a.cac)} conquistar cada uma, que depois gastou ${fmtR$.format(a.ltv)}.`]);
+  }
+
+  el("insights").innerHTML = itens.map(([n,t]) => `<div class="ins"><span class="mark">${n}</span><p>${t}</p></div>`).join("");
+
+  const partAnuncio = met.fat ? tr.fatAd/met.fat : 0;
+  el("resumo").innerHTML =
+    `<b>Em uma frase:</b> o studio faturou ${fmtR$0.format(met.fat)} em ${fmtN.format(met.atendimentos)} atendimentos de ${fmtN.format(met.unicos)} clientes, ` +
+    `com ticket médio de ${fmtR$.format(met.ticket)}. A operação se sustenta em base recorrente — ${pct(met.retornoPct)} das clientes voltam e ` +
+    `${topOrig ? pct(topOrig[1]/nAt) + " chegam por " + topOrig[0].toLowerCase() : ""} — enquanto o tráfego pago responde por ${pct(partAnuncio)} do faturamento do período. ` +
+    `Anúncio é o motor de entrada de gente nova, não o de faturamento: leia o ROAS de anúncio, não o total — ` +
+    (LTV && isFinite(LTV.anuncio.roas)
+      ? `e, olhando a vida inteira da cliente conquistada por anúncio, cada real investido volta ${LTV.anuncio.roas.toFixed(2).replace(".",",")}×.`
+      : `o retorno completo aparece no bloco de LTV.`);
+}
+
+/* =========================================================================
+   9. CARREGAMENTO
+   ========================================================================= */
+function marcarStatus(){
+  const ao_vivo = FONTE === "planilha";
+  el("status").innerHTML =
+    `<span class="dot ${ao_vivo ? "" : "off"}"></span>` +
+    (ao_vivo
+      ? `Dados ao vivo da planilha<br><b>${ATUALIZADO.toLocaleString("pt-BR")}</b>`
+      : `Cópia local de <b>${SNAPSHOT_DATA}</b><br>a planilha não pôde ser lida daqui`);
+  el("rodape-atualizacao").textContent = ao_vivo
+    ? "Atualizado em " + ATUALIZADO.toLocaleString("pt-BR")
+    : "Exibindo a cópia embutida de " + SNAPSHOT_DATA;
+}
+
+function avisar(msg, erro){
+  el("avisos").innerHTML = msg ? `<div class="notice ${erro ? "err" : ""}">${msg}</div>` : "";
+}
+
+async function carregar(primeiraCarga){
+  const btn = el("btn-refresh");
+  btn.disabled = true; btn.textContent = "Atualizando…";
+  try{
+    const url = CSV_URL + (CSV_URL.includes("?") ? "&" : "?") + "_=" + Date.now();
+    const r = await fetch(url, {cache:"no-store"});
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const txt = await r.text();
+    processar(txt);
+    FONTE = "planilha"; ATUALIZADO = new Date();
+    avisar(DESCARTADAS ? `${fmtN.format(DESCARTADAS)} linhas foram descartadas por data de atendimento inválida ou procedimento em branco.` : "");
+    if (CSV_TRAFEGO_URL){
+      try{
+        const rt = await fetch(CSV_TRAFEGO_URL + (CSV_TRAFEGO_URL.includes("?") ? "&" : "?") + "_=" + Date.now(), {cache:"no-store"});
+        const lt = parseCSV(await rt.text());
+        const cab = lt[0].map(chaveCabecalho);
+        TRAFEGO = lt.slice(1).filter(l => l.length > 1 && l[cab.indexOf("mes")]).map(l => ({
+          Mes: l[cab.indexOf("mes")].trim(),
+          Investimento: parseValor(l[cab.indexOf("investimento")]),
+          Impressoes: parseValor(l[cab.indexOf("impressoes")]),
+          Alcance: parseValor(l[cab.indexOf("alcance")]),
+          Cliques: parseValor(l[cab.indexOf("cliques")]),
+          CTR: parseValor(l[cab.indexOf("ctr")]),
+          Conversas_Iniciadas: parseValor(l[cab.indexOf("conversasiniciadas")])
+        }));
+      } catch(e){ /* mantém a série embutida */ }
+    }
+  } catch(e){
+    if (primeiraCarga && SNAPSHOT_CSV.trim()){
+      processar(SNAPSHOT_CSV); FONTE = "cópia";
+      avisar("Não foi possível ler a planilha publicada agora — o painel está mostrando a cópia embutida de " + SNAPSHOT_DATA + ". Clique em <b>Atualizar dados</b> para tentar de novo.");
+    } else if (primeiraCarga){
+      avisar("Não foi possível ler a planilha publicada (" + e.message + "). Confira se ela continua publicada na web em <b>Arquivo &rsaquo; Compartilhar &rsaquo; Publicar na web</b> e clique em <b>Atualizar dados</b>.", true);
+      el("btn-refresh").disabled = false; el("btn-refresh").textContent = "Atualizar dados";
+      return;
+    } else {
+      avisar("A planilha não respondeu (" + e.message + "). Os números na tela continuam sendo os da última leitura bem-sucedida.", true);
+    }
+  }
+  montarFiltros();
+  marcarStatus();
+  render();
+  btn.disabled = false; btn.textContent = "Atualizar dados";
+}
+
+// Primeira pintura: quando há cópia embutida, a tela já abre preenchida e o fetch ao vivo
+// substitui em seguida. Sem cópia (versão hospedada), abre direto da planilha.
+if (SNAPSHOT_CSV.trim()){
+  processar(SNAPSHOT_CSV);
+  montarFiltros();
+  marcarStatus();
+  render();
+}
+carregar(true);
+
+el("btn-refresh").addEventListener("click", () => carregar(false));
+el("filters").addEventListener("change", e => { if (e.target.matches("select,input")) render(); });
+el("btn-clear").addEventListener("click", () => {
+  ["f-prof","f-proc","f-orig","f-pgto","f-prim"].forEach(id => el(id).value = "");
+  el("f-de").value = el("f-de").min; el("f-ate").value = el("f-ate").max;
+  render();
+});
+
+// Redesenha os gráficos quando o tema muda (as cores vêm dos tokens CSS).
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => render());
+new MutationObserver(() => render()).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+</script>
+
+</body>
+</html>
