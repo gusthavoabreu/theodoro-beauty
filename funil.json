@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-05T22:07:00.832Z",
+  "geradoEm": "2026-11-06T03:07:00.922Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -45,8 +45,8 @@
       "iaAtendeu": 322,
       "passouParaEquipe": 63,
       "ondeEstao": {
-        "Nutrir": 261,
-        "Qualificação": 41,
+        "Nutrir": 262,
+        "Qualificação": 40,
         "Primeiro contato": 26,
         "Novo lead": 24,
         "Perdido": 28,
@@ -78,12 +78,12 @@
       "iaAtendeu": 223,
       "passouParaEquipe": 34,
       "ondeEstao": {
-        "Nutrir": 122,
-        "Qualificação": 51,
-        "Primeiro contato": 33,
-        "Novo lead": 29,
+        "Nutrir": 132,
+        "Qualificação": 48,
+        "Primeiro contato": 29,
+        "Novo lead": 25,
         "Recuperação de vendas": 13,
-        "Perdido": 24,
+        "Perdido": 25,
         "Em tratamento": 6,
         "Avaliação agendada": 10
       },
@@ -95,36 +95,36 @@
       "fecharam": 7,
       "naoFecharam": 13,
       "custoIaUsd": 27.75,
-      "viraramClientes": 10,
+      "viraramClientes": 12,
       "jaEramClientes": 3,
-      "receitaDasLeads": 37420
+      "receitaDasLeads": 37570
     },
     {
       "mes": "2026-11",
-      "leads": 43,
+      "leads": 45,
       "porOrigem": {
         "ads": 20,
-        "insta": 23,
+        "insta": 25,
         "direto": 0
       },
-      "iaAtendeu": 34,
+      "iaAtendeu": 36,
       "passouParaEquipe": 11,
       "ondeEstao": {
+        "Primeiro contato": 16,
+        "Avaliação agendada": 5,
         "Novo lead": 12,
-        "Primeiro contato": 15,
         "Perdido": 2,
-        "Avaliação agendada": 4,
         "Qualificação": 9,
         "Recuperação de vendas": 1
       },
-      "agendadas": 8,
+      "agendadas": 9,
       "canceladas": 5,
-      "medianaDiasAteAvaliacao": 7.7,
+      "medianaDiasAteAvaliacao": 4.4,
       "compareceram": 7,
       "faltaram": 1,
       "fecharam": 0,
       "naoFecharam": 7,
-      "custoIaUsd": 4.28,
+      "custoIaUsd": 4.58,
       "viraramClientes": 0,
       "jaEramClientes": 0,
       "receitaDasLeads": 0
