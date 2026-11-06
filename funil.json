@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-06T03:07:00.922Z",
+  "geradoEm": "2026-11-06T11:07:01.040Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -13,14 +13,13 @@
       "passouParaEquipe": 52,
       "ondeEstao": {
         "Qualificação": 36,
-        "Nutrir": 67,
+        "Nutrir": 74,
         "Cliente avulso": 9,
-        "Em tratamento": 8,
-        "Avaliação agendada": 11,
+        "Em tratamento": 9,
         "Novo lead": 20,
-        "Perdido": 13,
+        "Perdido": 14,
         "Primeiro contato": 2,
-        "Recuperação de vendas": 1
+        "Recuperação de vendas": 3
       },
       "agendadas": 25,
       "canceladas": 0,
@@ -45,15 +44,14 @@
       "iaAtendeu": 322,
       "passouParaEquipe": 63,
       "ondeEstao": {
-        "Nutrir": 262,
+        "Nutrir": 265,
         "Qualificação": 40,
         "Primeiro contato": 26,
         "Novo lead": 24,
-        "Perdido": 28,
+        "Perdido": 30,
         "Em tratamento": 9,
-        "Recuperação de vendas": 12,
-        "Avaliação agendada": 10,
-        "Cliente avulso": 3
+        "Recuperação de vendas": 16,
+        "Cliente avulso": 4
       },
       "agendadas": 60,
       "canceladas": 0,
@@ -78,14 +76,14 @@
       "iaAtendeu": 223,
       "passouParaEquipe": 34,
       "ondeEstao": {
-        "Nutrir": 132,
+        "Nutrir": 133,
         "Qualificação": 48,
         "Primeiro contato": 29,
         "Novo lead": 25,
-        "Recuperação de vendas": 13,
-        "Perdido": 25,
-        "Em tratamento": 6,
-        "Avaliação agendada": 10
+        "Recuperação de vendas": 19,
+        "Perdido": 26,
+        "Em tratamento": 7,
+        "Avaliação agendada": 1
       },
       "agendadas": 52,
       "canceladas": 32,
@@ -101,21 +99,22 @@
     },
     {
       "mes": "2026-11",
-      "leads": 45,
+      "leads": 47,
       "porOrigem": {
-        "ads": 20,
+        "ads": 22,
         "insta": 25,
         "direto": 0
       },
-      "iaAtendeu": 36,
+      "iaAtendeu": 38,
       "passouParaEquipe": 11,
       "ondeEstao": {
+        "Novo lead": 14,
         "Primeiro contato": 16,
-        "Avaliação agendada": 5,
-        "Novo lead": 12,
+        "Avaliação agendada": 4,
         "Perdido": 2,
         "Qualificação": 9,
-        "Recuperação de vendas": 1
+        "Recuperação de vendas": 1,
+        "Nutrir": 1
       },
       "agendadas": 9,
       "canceladas": 5,
@@ -124,7 +123,7 @@
       "faltaram": 1,
       "fecharam": 0,
       "naoFecharam": 7,
-      "custoIaUsd": 4.58,
+      "custoIaUsd": 4.62,
       "viraramClientes": 0,
       "jaEramClientes": 0,
       "receitaDasLeads": 0
