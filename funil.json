@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-09T07:19:49.878Z",
+  "geradoEm": "2026-11-09T18:04:28.038Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -9,7 +9,7 @@
         "insta": 54,
         "direto": 0
       },
-      "iaAtendeu": 158,
+      "iaAtendeu": 159,
       "passouParaEquipe": 52,
       "ondeEstao": {
         "Qualificação": 36,
@@ -41,7 +41,7 @@
         "insta": 127,
         "direto": 4
       },
-      "iaAtendeu": 321,
+      "iaAtendeu": 325,
       "passouParaEquipe": 64,
       "ondeEstao": {
         "Nutrir": 269,
@@ -73,16 +73,16 @@
         "insta": 116,
         "direto": 1
       },
-      "iaAtendeu": 222,
+      "iaAtendeu": 234,
       "passouParaEquipe": 35,
       "ondeEstao": {
         "Nutrir": 150,
-        "Qualificação": 39,
+        "Qualificação": 38,
         "Primeiro contato": 26,
         "Novo lead": 20,
         "Recuperação de vendas": 19,
         "Perdido": 26,
-        "Em tratamento": 7,
+        "Em tratamento": 8,
         "Avaliação agendada": 1
       },
       "agendadas": 51,
@@ -99,32 +99,32 @@
     },
     {
       "mes": "2026-11",
-      "leads": 79,
+      "leads": 84,
       "porOrigem": {
-        "ads": 36,
-        "insta": 43,
+        "ads": 39,
+        "insta": 45,
         "direto": 0
       },
-      "iaAtendeu": 65,
+      "iaAtendeu": 72,
       "passouParaEquipe": 14,
       "ondeEstao": {
-        "Novo lead": 24,
-        "Qualificação": 21,
-        "Primeiro contato": 21,
-        "Avaliação agendada": 6,
+        "Primeiro contato": 24,
+        "Qualificação": 22,
+        "Avaliação agendada": 8,
+        "Novo lead": 23,
         "Nutrir": 2,
         "Perdido": 3,
         "Em tratamento": 1,
         "Recuperação de vendas": 1
       },
-      "agendadas": 11,
-      "canceladas": 7,
+      "agendadas": 14,
+      "canceladas": 8,
       "medianaDiasAteAvaliacao": 4.7,
       "compareceram": 8,
       "faltaram": 1,
       "fecharam": 1,
       "naoFecharam": 7,
-      "custoIaUsd": 7.15,
+      "custoIaUsd": 8.11,
       "viraramClientes": 1,
       "jaEramClientes": 0,
       "receitaDasLeads": 5160
