@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-10T22:33:08.031Z",
+  "geradoEm": "2026-11-11T05:33:08.157Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -44,8 +44,8 @@
       "iaAtendeu": 333,
       "passouParaEquipe": 64,
       "ondeEstao": {
-        "Nutrir": 268,
-        "Qualificação": 37,
+        "Nutrir": 269,
+        "Qualificação": 36,
         "Primeiro contato": 25,
         "Novo lead": 24,
         "Perdido": 30,
@@ -99,19 +99,19 @@
     },
     {
       "mes": "2026-11",
-      "leads": 92,
+      "leads": 94,
       "porOrigem": {
-        "ads": 41,
+        "ads": 43,
         "insta": 51,
         "direto": 0
       },
-      "iaAtendeu": 76,
+      "iaAtendeu": 78,
       "passouParaEquipe": 17,
       "ondeEstao": {
+        "Qualificação": 24,
+        "Primeiro contato": 27,
         "Novo lead": 26,
         "Avaliação agendada": 9,
-        "Primeiro contato": 26,
-        "Qualificação": 23,
         "Recuperação de vendas": 2,
         "Nutrir": 2,
         "Perdido": 3,
@@ -124,7 +124,7 @@
       "faltaram": 1,
       "fecharam": 1,
       "naoFecharam": 8,
-      "custoIaUsd": 9,
+      "custoIaUsd": 9.3,
       "viraramClientes": 2,
       "jaEramClientes": 0,
       "receitaDasLeads": 5210
