@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-12T02:33:08.402Z",
+  "geradoEm": "2026-11-12T10:33:08.538Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -124,7 +124,7 @@
       "faltaram": 1,
       "fecharam": 3,
       "naoFecharam": 10,
-      "custoIaUsd": 9.94,
+      "custoIaUsd": 9.98,
       "viraramClientes": 3,
       "jaEramClientes": 0,
       "receitaDasLeads": 7610
