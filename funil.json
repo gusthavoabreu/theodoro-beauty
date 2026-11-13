@@ -1,22 +1,22 @@
 {
-  "geradoEm": "2026-11-13T05:41:49.989Z",
+  "geradoEm": "2026-11-13T15:35:17.672Z",
   "meses": [
     {
       "mes": "2026-08",
-      "leads": 167,
+      "leads": 168,
       "porOrigem": {
-        "ads": 113,
+        "ads": 114,
         "insta": 54,
         "direto": 0
       },
-      "iaAtendeu": 160,
+      "iaAtendeu": 168,
       "passouParaEquipe": 52,
       "ondeEstao": {
         "Qualificação": 36,
         "Nutrir": 75,
         "Cliente avulso": 9,
         "Em tratamento": 9,
-        "Novo lead": 20,
+        "Novo lead": 21,
         "Perdido": 14,
         "Primeiro contato": 1,
         "Recuperação de vendas": 3
@@ -41,7 +41,7 @@
         "insta": 127,
         "direto": 4
       },
-      "iaAtendeu": 329,
+      "iaAtendeu": 334,
       "passouParaEquipe": 64,
       "ondeEstao": {
         "Nutrir": 269,
@@ -86,7 +86,7 @@
         "Avaliação agendada": 1
       },
       "agendadas": 51,
-      "canceladas": 22,
+      "canceladas": 21,
       "medianaDiasAteAvaliacao": 3.1,
       "compareceram": 28,
       "faltaram": 15,
@@ -99,23 +99,23 @@
     },
     {
       "mes": "2026-11",
-      "leads": 104,
+      "leads": 107,
       "porOrigem": {
-        "ads": 49,
+        "ads": 52,
         "insta": 55,
         "direto": 0
       },
-      "iaAtendeu": 85,
+      "iaAtendeu": 88,
       "passouParaEquipe": 20,
       "ondeEstao": {
-        "Qualificação": 28,
+        "Novo lead": 25,
+        "Qualificação": 29,
         "Primeiro contato": 30,
-        "Novo lead": 23,
         "Nutrir": 10,
-        "Recuperação de vendas": 3,
+        "Perdido": 4,
         "Avaliação agendada": 4,
-        "Em tratamento": 3,
-        "Perdido": 3
+        "Recuperação de vendas": 2,
+        "Em tratamento": 3
       },
       "agendadas": 14,
       "canceladas": 12,
@@ -124,7 +124,7 @@
       "faltaram": 1,
       "fecharam": 3,
       "naoFecharam": 10,
-      "custoIaUsd": 10.67,
+      "custoIaUsd": 10.86,
       "viraramClientes": 3,
       "jaEramClientes": 0,
       "receitaDasLeads": 7610
