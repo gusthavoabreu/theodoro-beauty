@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-14T02:35:17.818Z",
+  "geradoEm": "2026-11-14T09:35:17.917Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -9,7 +9,7 @@
         "insta": 54,
         "direto": 0
       },
-      "iaAtendeu": 170,
+      "iaAtendeu": 165,
       "passouParaEquipe": 52,
       "ondeEstao": {
         "Qualificação": 36,
@@ -41,7 +41,7 @@
         "insta": 127,
         "direto": 4
       },
-      "iaAtendeu": 334,
+      "iaAtendeu": 311,
       "passouParaEquipe": 64,
       "ondeEstao": {
         "Nutrir": 268,
@@ -73,7 +73,7 @@
         "insta": 116,
         "direto": 1
       },
-      "iaAtendeu": 209,
+      "iaAtendeu": 203,
       "passouParaEquipe": 35,
       "ondeEstao": {
         "Nutrir": 152,
