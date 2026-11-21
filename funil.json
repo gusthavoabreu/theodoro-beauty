@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-21T01:34:39.337Z",
+  "geradoEm": "2026-11-21T09:34:39.438Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -98,16 +98,16 @@
     },
     {
       "mes": "2026-11",
-      "leads": 163,
+      "leads": 164,
       "porOrigem": {
-        "ads": 86,
+        "ads": 87,
         "insta": 77,
         "direto": 0
       },
-      "iaAtendeu": 106,
+      "iaAtendeu": 107,
       "passouParaEquipe": 25,
       "ondeEstao": {
-        "Novo lead": 26,
+        "Novo lead": 27,
         "Qualificação": 42,
         "Perdido": 5,
         "Avaliação agendada": 4,
