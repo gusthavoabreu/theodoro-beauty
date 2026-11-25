@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-24T16:54:15.270Z",
+  "geradoEm": "2026-11-25T01:54:15.309Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -44,9 +44,9 @@
       "iaAtendeu": 287,
       "passouParaEquipe": 64,
       "ondeEstao": {
-        "Nutrir": 265,
+        "Nutrir": 266,
         "Primeiro contato": 28,
-        "Novo lead": 24,
+        "Novo lead": 23,
         "Perdido": 32,
         "Em tratamento": 10,
         "Recuperação de vendas": 16,
@@ -123,7 +123,7 @@
       "faltaram": 4,
       "fecharam": 3,
       "naoFecharam": 13,
-      "custoIaUsd": 17.63,
+      "custoIaUsd": 17.68,
       "viraramClientes": 3,
       "jaEramClientes": 1,
       "receitaDasLeads": 7610
