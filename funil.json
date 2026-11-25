@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-25T01:54:15.309Z",
+  "geradoEm": "2026-11-25T11:54:15.507Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -85,7 +85,7 @@
         "Em tratamento": 8
       },
       "agendadas": 51,
-      "canceladas": 14,
+      "canceladas": 13,
       "medianaDiasAteAvaliacao": 3.1,
       "compareceram": 28,
       "faltaram": 15,
@@ -104,7 +104,7 @@
         "insta": 86,
         "direto": 0
       },
-      "iaAtendeu": 104,
+      "iaAtendeu": 105,
       "passouParaEquipe": 28,
       "ondeEstao": {
         "Novo lead": 37,
@@ -123,7 +123,7 @@
       "faltaram": 4,
       "fecharam": 3,
       "naoFecharam": 13,
-      "custoIaUsd": 17.68,
+      "custoIaUsd": 17.73,
       "viraramClientes": 3,
       "jaEramClientes": 1,
       "receitaDasLeads": 7610
