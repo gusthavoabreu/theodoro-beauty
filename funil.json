@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-26T14:28:32.988Z",
+  "geradoEm": "2026-11-26T23:28:33.063Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -9,7 +9,7 @@
         "insta": 54,
         "direto": 0
       },
-      "iaAtendeu": 163,
+      "iaAtendeu": 172,
       "passouParaEquipe": 53,
       "ondeEstao": {
         "Sem card": 168
@@ -24,7 +24,7 @@
       "custoIaUsd": 0,
       "viraramClientes": 9,
       "jaEramClientes": 1,
-      "receitaDasLeads": 18052.72
+      "receitaDasLeads": 18259.72
     },
     {
       "mes": "2026-09",
@@ -34,8 +34,8 @@
         "insta": 127,
         "direto": 4
       },
-      "iaAtendeu": 287,
-      "passouParaEquipe": 64,
+      "iaAtendeu": 346,
+      "passouParaEquipe": 65,
       "ondeEstao": {
         "Sem card": 415
       },
@@ -59,13 +59,13 @@
         "insta": 116,
         "direto": 1
       },
-      "iaAtendeu": 198,
+      "iaAtendeu": 259,
       "passouParaEquipe": 35,
       "ondeEstao": {
         "Sem card": 288
       },
       "agendadas": 51,
-      "canceladas": 11,
+      "canceladas": 10,
       "medianaDiasAteAvaliacao": 3.1,
       "compareceram": 28,
       "faltaram": 15,
@@ -78,28 +78,28 @@
     },
     {
       "mes": "2026-11",
-      "leads": 209,
+      "leads": 215,
       "porOrigem": {
-        "ads": 120,
-        "insta": 87,
+        "ads": 125,
+        "insta": 88,
         "direto": 2
       },
-      "iaAtendeu": 104,
+      "iaAtendeu": 192,
       "passouParaEquipe": 29,
       "ondeEstao": {
-        "Sem card": 209
+        "Sem card": 215
       },
-      "agendadas": 24,
-      "canceladas": 18,
-      "medianaDiasAteAvaliacao": 2.4,
+      "agendadas": 25,
+      "canceladas": 19,
+      "medianaDiasAteAvaliacao": 2.2,
       "compareceram": 16,
       "faltaram": 5,
       "fecharam": 3,
       "naoFecharam": 14,
-      "custoIaUsd": 18.08,
+      "custoIaUsd": 18.99,
       "viraramClientes": 3,
       "jaEramClientes": 1,
-      "receitaDasLeads": 10010
+      "receitaDasLeads": 7610
     }
   ]
 }
