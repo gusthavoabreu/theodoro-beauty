@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-25T21:54:15.574Z",
+  "geradoEm": "2026-11-26T04:54:15.670Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -12,14 +12,7 @@
       "iaAtendeu": 163,
       "passouParaEquipe": 53,
       "ondeEstao": {
-        "Qualificação": 35,
-        "Nutrir": 75,
-        "Cliente avulso": 9,
-        "Em tratamento": 10,
-        "Novo lead": 21,
-        "Perdido": 14,
-        "Primeiro contato": 1,
-        "Recuperação de vendas": 3
+        "Sem card": 168
       },
       "agendadas": 25,
       "canceladas": 0,
@@ -44,14 +37,7 @@
       "iaAtendeu": 287,
       "passouParaEquipe": 64,
       "ondeEstao": {
-        "Nutrir": 266,
-        "Primeiro contato": 28,
-        "Novo lead": 23,
-        "Perdido": 32,
-        "Em tratamento": 10,
-        "Recuperação de vendas": 16,
-        "Qualificação": 36,
-        "Cliente avulso": 4
+        "Sem card": 415
       },
       "agendadas": 60,
       "canceladas": 0,
@@ -73,16 +59,10 @@
         "insta": 116,
         "direto": 1
       },
-      "iaAtendeu": 199,
+      "iaAtendeu": 198,
       "passouParaEquipe": 35,
       "ondeEstao": {
-        "Nutrir": 154,
-        "Perdido": 29,
-        "Primeiro contato": 25,
-        "Novo lead": 19,
-        "Qualificação": 33,
-        "Recuperação de vendas": 20,
-        "Em tratamento": 8
+        "Sem card": 288
       },
       "agendadas": 51,
       "canceladas": 13,
@@ -98,23 +78,16 @@
     },
     {
       "mes": "2026-11",
-      "leads": 201,
+      "leads": 205,
       "porOrigem": {
-        "ads": 113,
+        "ads": 116,
         "insta": 87,
-        "direto": 1
+        "direto": 2
       },
-      "iaAtendeu": 106,
+      "iaAtendeu": 105,
       "passouParaEquipe": 29,
       "ondeEstao": {
-        "Novo lead": 40,
-        "Primeiro contato": 49,
-        "Avaliação agendada": 6,
-        "Qualificação": 46,
-        "Perdido": 5,
-        "Nutrir": 48,
-        "Recuperação de vendas": 4,
-        "Em tratamento": 3
+        "Sem card": 205
       },
       "agendadas": 25,
       "canceladas": 17,
@@ -122,7 +95,7 @@
       "compareceram": 16,
       "faltaram": 5,
       "fecharam": 3,
-      "naoFecharam": 13,
+      "naoFecharam": 14,
       "custoIaUsd": 17.8,
       "viraramClientes": 3,
       "jaEramClientes": 1,
