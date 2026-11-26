@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-26T04:54:15.670Z",
+  "geradoEm": "2026-11-26T14:28:32.988Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -65,7 +65,7 @@
         "Sem card": 288
       },
       "agendadas": 51,
-      "canceladas": 13,
+      "canceladas": 11,
       "medianaDiasAteAvaliacao": 3.1,
       "compareceram": 28,
       "faltaram": 15,
@@ -78,28 +78,28 @@
     },
     {
       "mes": "2026-11",
-      "leads": 205,
+      "leads": 209,
       "porOrigem": {
-        "ads": 116,
+        "ads": 120,
         "insta": 87,
         "direto": 2
       },
-      "iaAtendeu": 105,
+      "iaAtendeu": 104,
       "passouParaEquipe": 29,
       "ondeEstao": {
-        "Sem card": 205
+        "Sem card": 209
       },
-      "agendadas": 25,
-      "canceladas": 17,
+      "agendadas": 24,
+      "canceladas": 18,
       "medianaDiasAteAvaliacao": 2.4,
       "compareceram": 16,
       "faltaram": 5,
       "fecharam": 3,
       "naoFecharam": 14,
-      "custoIaUsd": 17.8,
+      "custoIaUsd": 18.08,
       "viraramClientes": 3,
       "jaEramClientes": 1,
-      "receitaDasLeads": 7610
+      "receitaDasLeads": 10010
     }
   ]
 }
