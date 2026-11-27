@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-26T23:28:33.063Z",
+  "geradoEm": "2026-11-27T18:28:33.279Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -65,7 +65,7 @@
         "Sem card": 288
       },
       "agendadas": 51,
-      "canceladas": 10,
+      "canceladas": 7,
       "medianaDiasAteAvaliacao": 3.1,
       "compareceram": 28,
       "faltaram": 15,
@@ -78,19 +78,19 @@
     },
     {
       "mes": "2026-11",
-      "leads": 215,
+      "leads": 223,
       "porOrigem": {
-        "ads": 125,
-        "insta": 88,
+        "ads": 132,
+        "insta": 89,
         "direto": 2
       },
-      "iaAtendeu": 192,
-      "passouParaEquipe": 29,
+      "iaAtendeu": 198,
+      "passouParaEquipe": 30,
       "ondeEstao": {
-        "Sem card": 215
+        "Sem card": 223
       },
       "agendadas": 25,
-      "canceladas": 19,
+      "canceladas": 20,
       "medianaDiasAteAvaliacao": 2.2,
       "compareceram": 16,
       "faltaram": 5,
