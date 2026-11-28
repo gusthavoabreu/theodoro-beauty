@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-28T01:28:33.316Z",
+  "geradoEm": "2026-11-28T09:28:33.457Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -24,7 +24,7 @@
       "custoIaUsd": 0,
       "viraramClientes": 9,
       "jaEramClientes": 1,
-      "receitaDasLeads": 18259.72
+      "receitaDasLeads": 18742.44
     },
     {
       "mes": "2026-09",
@@ -72,9 +72,9 @@
       "fecharam": 7,
       "naoFecharam": 13,
       "custoIaUsd": 27.75,
-      "viraramClientes": 12,
+      "viraramClientes": 13,
       "jaEramClientes": 3,
-      "receitaDasLeads": 37570
+      "receitaDasLeads": 38203.33
     },
     {
       "mes": "2026-11",
