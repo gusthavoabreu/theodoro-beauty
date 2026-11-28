@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-11-27T18:28:33.279Z",
+  "geradoEm": "2026-11-28T01:28:33.316Z",
   "meses": [
     {
       "mes": "2026-08",
@@ -34,7 +34,7 @@
         "insta": 127,
         "direto": 4
       },
-      "iaAtendeu": 346,
+      "iaAtendeu": 345,
       "passouParaEquipe": 65,
       "ondeEstao": {
         "Sem card": 415
@@ -65,7 +65,7 @@
         "Sem card": 288
       },
       "agendadas": 51,
-      "canceladas": 7,
+      "canceladas": 5,
       "medianaDiasAteAvaliacao": 3.1,
       "compareceram": 28,
       "faltaram": 15,
@@ -78,23 +78,23 @@
     },
     {
       "mes": "2026-11",
-      "leads": 223,
+      "leads": 226,
       "porOrigem": {
-        "ads": 132,
+        "ads": 135,
         "insta": 89,
         "direto": 2
       },
-      "iaAtendeu": 198,
+      "iaAtendeu": 199,
       "passouParaEquipe": 30,
       "ondeEstao": {
-        "Sem card": 223
+        "Sem card": 226
       },
       "agendadas": 25,
       "canceladas": 20,
       "medianaDiasAteAvaliacao": 2.2,
       "compareceram": 16,
       "faltaram": 5,
-      "fecharam": 3,
+      "fecharam": 4,
       "naoFecharam": 14,
       "custoIaUsd": 18.99,
       "viraramClientes": 3,
